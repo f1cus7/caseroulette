@@ -1,0 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI";
+  user-select: none;
+}
+
+.grid-container {
+  display: grid;
+  gap: 0px 4vw;
+  grid-template-columns: auto auto auto;
+  padding: 0px;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 70vw;
+}
+
+.grid-item {
+  border: 1px solid #3399ff;
+  padding: 1vw;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.card-grid {
+  display: grid;
+  gap: 4vh 4vw;
+  grid-template-columns: auto auto auto auto auto auto;
+  padding: 0px;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 70vw;
+}
+
+.card-grid-item {
+
+  padding: 0.4vw;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.arm {
+  border: 3px solid rgb(81, 106, 242);
+}
+
+.zap {
+  border: 3px solid rgb(127, 80, 246);
+}
+
+.zas {
+  border: 3px solid rgb(193, 66, 222);
+}
+
+.tai {
+  border: 3px solid rgb(216, 87, 82);
+}
+
+.knife {
+  border: 3px solid rgb(216, 87, 82);
+}
+
+.grid-item:hover {
+  padding: 0vw 2vw;
+  border-radius: 25px;
+}
+
+.case-img {
+  width: 10vw;
+}
+
+.case-text {
+  color: #2b2b2b;
+}
+
+.nav-shop {
+  display: inline-block;
+  border: none;
+  background-color: #fff;
+  color: #2b2b2b;
+  padding: 2vh;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 15vw 1fr;
+  width: 100%;
+}
+
+main {
+  text-align: center;
+  margin-right: 15vw;
+}
+
+.nav-balance {
+  float: right;
+  padding: 2vh;
+  font-size: 2vh;
+}
+
+nav {
+  height: 7vh;
+}
+
+.main-text {
+  text-align: center;
+  font-size: 2.5vw;
+  margin: 2vw;
+  color: #2b2b2b;
+}
+
+.main-small-text {
+  text-align: justify;
+  font-size: 1.5vw;
+  font-weight: lighter;
+  width: 90%;
+  margin: 5vh auto;
+  color: #2b2b2b;
+}
+
+li {
+  margin-top: 10px;
+  margin-left: 10px;
+  list-style-type: none; /* Убираем точки */
+}
+
+hr {
+  width: 90%;
+  margin-top: 3px;
+  border-color: #3399ff;
+  transition: 0.5s;
+}
+
+li:hover hr {
+  width: 0%;
+}
+
+.change-text {
+  height: 60vh;
+}
+
+.case-one-open {
+  margin-top: 2vw;
+  height: 60vh;
+  display: none;
+  background-color: none;
+}
+
+.case-two-open {
+  margin-top: 2vw;
+  height: 60vh;
+  display: none;
+  background-color: #3399ff;
+}
+
+.case-three-open {
+  margin-top: 2vw;
+  height: 60vh;
+  display: none;
+  background-color: #e0ff33;
+}
+
+img {
+  pointer-events: none;
+}
+
+.img-weapon {
+  width: 7vh;
+}
+
+.card-grid-item {
+  font-size: 0.5vw;
+}
+
+.btn-opn {
+  margin-top: 5vh;
+  padding: 1.5vw 2vw;
+  border: none;
+  background-color: #3399ff;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 1vw;
+  transition: 0.2s;
+}
+
+.btn-opn:hover {
+  background-color: #2b7ed1;
+}
+
+.hr-card {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-grid-item.arm .hr-card {
+  border-color: rgb(81, 106, 242);
+}
+
+
+.card-grid-item.zap .hr-card {
+  border-color: rgb(127, 80, 246);
+}
+
+.card-grid-item.zas .hr-card {
+  border-color: rgb(193, 66, 222);
+}
+
+.card-grid-item.tai .hr-card {
+  border-color: rgb(216, 87, 82);
+}
+
+.card-grid-item.knife .hr-card {
+  border-color: rgb(216, 87, 82);
+}
+
+.weapon-cost {
+  font-size: 0.7vw;
+  margin-top: .2vh;
+}
