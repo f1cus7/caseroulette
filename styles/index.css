@@ -27,7 +27,7 @@
 
 .card-grid {
   display: grid;
-  gap: 4vh 4vw;
+  gap: 2vh 2vw;
   grid-template-columns: auto auto auto auto auto auto;
   padding: 0px;
   margin-left: 1vw;
@@ -36,7 +36,7 @@
 }
 
 .card-grid-item {
-
+  width: 8vw;
   padding: 0.4vw;
   font-size: 30px;
   text-align: center;
@@ -78,15 +78,7 @@
   color: #2b2b2b;
 }
 
-.nav-shop {
-  display: inline-block;
-  border: none;
-  background-color: #fff;
-  color: #2b2b2b;
-  padding: 2vh;
-  font-size: 2vh;
-  cursor: pointer;
-}
+
 
 .container {
   display: grid;
@@ -99,11 +91,35 @@ main {
   margin-right: 15vw;
 }
 
+.nav-shop {
+  display: inline-flex;
+  align-items: center; /* Выравнивание по вертикали */
+  border: none;
+  background-color: #fff;
+  color: #2b2b2b;
+  padding: 2vh;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.nav-shop img {
+  width: 2vh;
+  margin-right: 0.5vw; /* Отступ между иконкой и текстом */
+}
+
 .nav-balance {
   float: right;
   padding: 2vh;
   font-size: 2vh;
+  display: inline-flex;
+  align-items: center; /* Выравнивание по вертикали */
 }
+
+.nav-balance img {
+  width: 2vh;
+  margin-right: 0.5vw; /* Отступ между иконкой и текстом */
+}
+
 
 nav {
   height: 7vh;
@@ -157,14 +173,12 @@ li:hover hr {
   margin-top: 2vw;
   height: 60vh;
   display: none;
-  background-color: #3399ff;
 }
 
 .case-three-open {
   margin-top: 2vw;
   height: 60vh;
   display: none;
-  background-color: #e0ff33;
 }
 
 img {
@@ -173,6 +187,7 @@ img {
 
 .img-weapon {
   width: 7vh;
+  height: 5vh;
 }
 
 .card-grid-item {
@@ -224,4 +239,18 @@ img {
 .weapon-cost {
   font-size: 0.7vw;
   margin-top: .2vh;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+  z-index: 1000;
 }
