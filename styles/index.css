@@ -18,7 +18,7 @@
 .grid-item {
   border: 1px solid #3399ff;
   padding: 1vw;
-  font-size: 30px;
+  font-size: 1.5vw;
   text-align: center;
   cursor: pointer;
   border-radius: 10px;
@@ -142,14 +142,15 @@ nav {
 }
 
 li {
-  margin-top: 10px;
-  margin-left: 10px;
+  margin-top: 1.5vh;
+  margin-left: 0.5vw;
   list-style-type: none; /* Убираем точки */
+  font-size: 1.8vh;
 }
 
 hr {
   width: 90%;
-  margin-top: 3px;
+  margin-top: 0.3vh;
   border-color: #3399ff;
   transition: 0.5s;
 }
@@ -195,7 +196,6 @@ img {
 }
 
 .btn-opn {
-  margin-top: 5vh;
   padding: 1.5vw 2vw;
   border: none;
   background-color: #3399ff;
@@ -204,6 +204,7 @@ img {
   border-radius: 10px;
   font-size: 1vw;
   transition: 0.2s;
+  margin: 2vw 1vw;
 }
 
 .btn-opn:hover {
