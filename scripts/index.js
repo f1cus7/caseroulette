@@ -9,6 +9,10 @@ const caseThreeOpen = document.querySelector('.case-three-open');
 const btnOpenCaseOne = document.getElementById('btn-open-case-one');
 const btnOpenCaseOne5x = document.getElementById('btn-open-case-one-5x');
 const btnOpenCaseOne10x = document.getElementById('btn-open-case-one-10x');
+const btnOpenCaseTwo5x = document.getElementById('btn-open-case-two-5x');
+const btnOpenCaseTwo10x = document.getElementById('btn-open-case-two-10x');
+const btnOpenCaseThree5x = document.getElementById('btn-open-case-three-5x');
+const btnOpenCaseThree10x = document.getElementById('btn-open-case-three-10x');
 const btnOpenCaseTwo = document.getElementById('btn-open-case-two');
 const btnOpenCaseThree = document.getElementById('btn-open-case-three');
 const staticOpenCaseNode = document.getElementById('static-open-case');
@@ -17,6 +21,7 @@ const staticZapCaseNode = document.getElementById('static-zap-case');
 const staticZasCaseNode = document.getElementById('static-zas-case');
 const staticTaiCaseNode = document.getElementById('static-tai-case');
 const staticKnifeCaseNode = document.getElementById('static-knife-case');
+const inventoryNode = document.getElementById('inventory');
 
 // масив кейса 1 
 const caseOneArr = [
@@ -119,7 +124,7 @@ const caseOneArr = [
     {
         name: '★ Кукри | Градиент',
         rare: 'knife',
-        minCost: 69204.92,
+        minCost: 39204.92,
         maxCost: 48990.19
     }
 ];
@@ -205,16 +210,16 @@ const caseTwoArr = [
         maxCost: 4428.09
     },
     {
-        name: 'M4A1-S | Чёрный лотос',
-        rare: 'zas',
-        minCost: 1079.05,
-        maxCost: 7323.54
-    },
-    {
         name: 'USP-S | Зубоскал',
         rare: 'zas',
         minCost: 683.44,
         maxCost: 5767.50
+    },
+    {
+        name: 'M4A1-S | Чёрный лотос',
+        rare: 'zas',
+        minCost: 1079.05,
+        maxCost: 7323.54
     },
     {
         name: 'AWP | Хромовая пушка',
@@ -317,16 +322,16 @@ const caseThreeArr = [
         maxCost: 4428.09
     },
     {
-        name: 'Dual Berettas | Плод воображения',
-        rare: 'zas',
-        minCost: 105.77,
-        maxCost: 7323.54
-    },
-    {
         name: 'FAMAS | Быстрые движения глаз',
         rare: 'zas',
         minCost: 102.72,
         maxCost: 5767.50
+    },
+    {
+        name: 'Dual Berettas | Плод воображения',
+        rare: 'zas',
+        minCost: 105.77,
+        maxCost: 7323.54
     },
     {
         name: 'MP9 | Звёздный защитник',
@@ -349,6 +354,10 @@ const caseThreeArr = [
 ];
 
 
+//инвентарь
+let inventory = [];
+
+
 // редкости
 const rareWeapons = {
     arm: '80',
@@ -369,7 +378,7 @@ balanceNode.addEventListener(`click`, () => {
 })
 
 
-let balance = 10000;
+let balance = 25000;
 let staticOpenCase = 0;
 let staticArmCase = 0;
 let staticZapCase = 0;
@@ -486,9 +495,21 @@ const createModal = (skin, index, caseNumber) => {
 
     document.body.appendChild(modal);
 
-    modal.querySelector('.close-modal').addEventListener('click', () => {
+    const closeModal = () => {
         modal.remove();
-    });
+        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+    };
+
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+
+    modal.querySelector('.close-modal').addEventListener('click', closeModal);
+
 
     if (skin.rare === 'arm' ) {
         staticArmCase++;
@@ -506,6 +527,9 @@ const createModal = (skin, index, caseNumber) => {
         staticKnifeCase++;
         staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr>`;
     }
+
+    inventory.push({name: skin.name, rare: skin.rare, price: skin.price, image: `images/${caseNumber}_${index + 1}.png`});
+    
 };
 
 
@@ -571,6 +595,8 @@ const createModal5x = (skins) => {
             <p>Стоимость: <span>${skin.price} ₽</span></p>
         `;
 
+
+
         skinsContainer.appendChild(skinElement);
 
         if (skin.rare === 'arm' ) {
@@ -593,14 +619,20 @@ const createModal5x = (skins) => {
 
     document.body.appendChild(modal);
 
-
-    
-
-    modal.querySelector('.close-modal').addEventListener('click', () => {
+    const closeModal = () => {
         modal.remove();
-    });
+        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+    };
 
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
 
+    document.addEventListener('keydown', handleEscapeKey);
+
+    modal.querySelector('.close-modal').addEventListener('click', closeModal);
 };
 
 // Открытие кейса 1 5x
@@ -626,6 +658,74 @@ btnOpenCaseOne5x.addEventListener('click', () => {
 
         // Добавляем данные для модального окна
         skins.push({ ...randomSkin, imagePath: `images/1_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/1_${randomIndex + 1}.png`});
+        console.log(inventory)
+    }
+
+    
+
+    // Показываем модальное окно с 5 скинами
+    createModal5x(skins);
+});
+
+//открытие кейса 2 5x
+btnOpenCaseTwo5x.addEventListener('click', () => {
+    if (balance < 1250) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 5;
+    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+
+    balance -= 1250;
+    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+
+    const skins = [];
+    for (let i = 0; i < 5; i++) {
+        const randomIndex = Math.floor(Math.random() * caseTwoArr.length);
+        const randomSkin = {
+            ...caseTwoArr[randomIndex],
+            price: getRandomNumber(caseTwoArr[randomIndex].minCost, caseTwoArr[randomIndex].maxCost)
+        };
+
+        // Добавляем данные для модального окна
+        skins.push({ ...randomSkin, imagePath: `images/2_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/2_${randomIndex + 1}.png`});
+        console.log(inventory)
+    }
+
+    
+
+    // Показываем модальное окно с 5 скинами
+    createModal5x(skins);
+});
+
+//открытие кейса 3 5x
+btnOpenCaseThree5x.addEventListener('click', () => {
+    if (balance < 1250) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 5;
+    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+
+    balance -= 1250;
+    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+
+    const skins = [];
+    for (let i = 0; i < 5; i++) {
+        const randomIndex = Math.floor(Math.random() * caseThreeArr.length);
+        const randomSkin = {
+            ...caseThreeArr[randomIndex],
+            price: getRandomNumber(caseThreeArr[randomIndex].minCost, caseThreeArr[randomIndex].maxCost)
+        };
+
+        // Добавляем данные для модального окна
+        skins.push({ ...randomSkin, imagePath: `images/3_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/3_${randomIndex + 1}.png`});
+        console.log(inventory)
     }
 
     
@@ -671,35 +771,55 @@ const createModal10x = (skins) => {
 
         skinsContainer.appendChild(skinElement);
 
-        if (skin.rare === 'arm' ) {
+        if (skin.rare === 'arm') {
             staticArmCase++;
             staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr>`;
-        } else if (skin.rare === 'zap' ) {
+        } else if (skin.rare === 'zap') {
             staticZapCase++;
             staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr>`;
-        } else if (skin.rare === 'zas' ) {
+        } else if (skin.rare === 'zas') {
             staticZasCase++;
             staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr>`;
-        } else if (skin.rare === 'tai' ) {
+        } else if (skin.rare === 'tai') {
             staticTaiCase++;
             staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr>`;
-        } else if (skin.rare === 'knife' ) {
+        } else if (skin.rare === 'knife') {
             staticKnifeCase++;
             staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr>`;
+        }
+
+        if (staticOpenCase === 100) {
+            console.log('eee');
+            const ach = document.createElement('div');
+            ach.innerHTML = `<div class="achivement">
+  <p class="achivement-name">
+  Открывальщик!
+  </p>
+  <p class="achivement-text">
+  Открыть 100 кейсов.
+  </p>
+</div>`
         }
     });
 
     document.body.appendChild(modal);
 
-
-    
-
-    modal.querySelector('.close-modal').addEventListener('click', () => {
+    const closeModal = () => {
         modal.remove();
-    });
+        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+    };
 
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
 
+    document.addEventListener('keydown', handleEscapeKey);
+
+    modal.querySelector('.close-modal').addEventListener('click', closeModal);
 };
+
 
 // Открытие кейса 1 10x
 btnOpenCaseOne10x.addEventListener('click', () => {
@@ -724,6 +844,74 @@ btnOpenCaseOne10x.addEventListener('click', () => {
 
         // Добавляем данные для модального окна
         skins.push({ ...randomSkin, imagePath: `images/1_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/1_${randomIndex + 1}.png`});
+        console.log(inventory)
+    }
+
+    
+
+    // Показываем модальное окно с 5 скинами
+    createModal10x(skins);
+});
+
+// Открытие кейса 3 10x
+btnOpenCaseThree10x.addEventListener('click', () => {
+    if (balance < 2500) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 10;
+    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+
+    balance -= 2500;
+    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+
+    const skins = [];
+    for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * caseThreeArr.length);
+        const randomSkin = {
+            ...caseThreeArr[randomIndex],
+            price: getRandomNumber(caseThreeArr[randomIndex].minCost, caseThreeArr[randomIndex].maxCost)
+        };
+
+        // Добавляем данные для модального окна
+        skins.push({ ...randomSkin, imagePath: `images/3_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/3_${randomIndex + 1}.png`});
+        console.log(inventory)
+    }
+
+    
+
+    // Показываем модальное окно с 5 скинами
+    createModal10x(skins);
+});
+
+// Открытие кейса 2 10x
+btnOpenCaseTwo10x.addEventListener('click', () => {
+    if (balance < 2500) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 10;
+    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+
+    balance -= 2500;
+    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+
+    const skins = [];
+    for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * caseTwoArr.length);
+        const randomSkin = {
+            ...caseTwoArr[randomIndex],
+            price: getRandomNumber(caseTwoArr[randomIndex].minCost, caseTwoArr[randomIndex].maxCost)
+        };
+
+        // Добавляем данные для модального окна
+        skins.push({ ...randomSkin, imagePath: `images/2_${randomIndex + 1}.png` });
+        inventory.push({...randomSkin, image: `images/2_${randomIndex + 1}.png`});
+        console.log(inventory)
     }
 
     
@@ -773,3 +961,63 @@ btnOpenCaseThree.addEventListener('click', () => {
     // Показываем модальное окно с информацией о выпавшем скине
     createModal(randomSkin, randomIndex, 3);  // Передаем номер кейса (3 для caseThree)
 });
+
+
+inventoryNode.addEventListener('click', () => {
+    // Удаляем старое модальное окно, если оно существует
+    const existingModal = document.querySelector('.modal');
+    if (existingModal) existingModal.remove();
+
+    // Создаем модальное окно
+    const modal = document.createElement('div');
+    modal.className = 'inventory-modal';
+
+    // Создаем контейнер для карточек
+    const cardGrid = document.createElement('div');
+    cardGrid.className = 'card-grid';
+
+    // Добавляем карточки на основе массива `inventory`
+    inventory.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `card-grid-item ${item.rare}`; // Добавляем класс редкости
+
+        card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
+            <p><strong>${item.name}</strong></p>
+            <hr class="hr-card">
+            <p class="weapon-cost" style="font-weight: bold; font-size:1vw">${item.price} ₽</p>
+        `;
+
+        cardGrid.appendChild(card);
+    });
+
+    // Добавляем карточки в модальное окно
+    modal.appendChild(cardGrid);
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'btn-opn';
+    closeButton.textContent = 'Закрыть';
+    closeButton.style.marginTop = '20px';
+
+    const closeModal = () => {
+        modal.remove();
+        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик Escape
+    };
+
+    closeButton.addEventListener('click', closeModal);
+
+    modal.appendChild(closeButton);
+    document.body.appendChild(modal);
+
+    // Обработчик нажатия клавиши Escape
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
+
+    // Добавляем обработчик нажатия клавиш
+    document.addEventListener('keydown', handleEscapeKey);
+});
+
+

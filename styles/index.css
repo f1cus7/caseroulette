@@ -255,3 +255,37 @@ img {
   text-align: center;
   z-index: 1000;
 }
+
+.inventory-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0px 8px 10px rgba(0, 191, 255, 0.2);
+  padding: 20px;
+  text-align: center;
+  z-index: 1000;
+  overflow-y: scroll;
+  max-height: 60vh;
+}
+
+.achivement {
+  background-color: #5bb450;
+padding: 1vh;
+width: auto;
+/* display: flex; */
+position:absolute;
+border-radius: 10px 0px 0px 10px;
+font-weight:bold;
+}
+.achivement-name {
+  font-size: 2vw;
+display: block;
+}
+.achivement-text {
+display: block;
+font-size: 1vw;
+}
