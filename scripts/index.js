@@ -22,6 +22,8 @@ const staticZasCaseNode = document.getElementById('static-zas-case');
 const staticTaiCaseNode = document.getElementById('static-tai-case');
 const staticKnifeCaseNode = document.getElementById('static-knife-case');
 const inventoryNode = document.getElementById('inventory');
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
 
 // масив кейса 1 
 const caseOneArr = [
@@ -359,13 +361,13 @@ let inventory = [];
 
 
 // редкости
-const rareWeapons = {
-    arm: '80',
-    zap: '16',
-    zas: '3.1',
-    tai: '0.64',
-    knife: '0.26'
-}
+const normalizedChances = {
+    arm: 0.8000,
+    zap: 0.1600,
+    zas: 0.0310,
+    tai: 0.0064,
+  knife: 0.0026
+};
 
 
 
@@ -419,71 +421,229 @@ const getRandomNumber = (min, max) => {
 };
 
 // Функция для определения выпавшего редкого предмета
-const getRandomSkin = (arr, chances) => {
-    // Преобразуем шансы в числа и нормализуем их
-    const numericChances = Object.fromEntries(
-        Object.entries(chances).map(([key, value]) => [key, parseFloat(value)])
-    );
-
-    // Нормализуем шансы, чтобы сумма была 1
-    const totalChance = Object.values(numericChances).reduce((sum, chance) => sum + chance, 0);
-    const normalizedChances = Object.fromEntries(
-        Object.entries(numericChances).map(([key, value]) => [key, value / totalChance])
-    );
-
+const getRandomSkin = (arr) => {
     // Генерируем случайное число от 0 до 1
     const rand = Math.random();
 
-    let cumulative = 0;
+    // Переменная для выбора редкости
     let selectedRare = null;
 
-    // Определяем редкость на основе нормализованных шансов
-    for (const rare in normalizedChances) {
-        cumulative += normalizedChances[rare];
-        if (rand <= cumulative) {
-            selectedRare = rare;
-            break;
-  
-        }
+    // Выбор редкости через if-else
+    if (rand < normalizedChances.arm) {
+        selectedRare = 'arm';
+    } else if (rand < normalizedChances.arm + normalizedChances.zap) {
+        selectedRare = 'zap';
+    } else if (rand < normalizedChances.arm + normalizedChances.zap + normalizedChances.zas) {
+        selectedRare = 'zas';
+    } else if (rand < normalizedChances.arm + normalizedChances.zap + normalizedChances.zas + normalizedChances.tai) {
+        selectedRare = 'tai';
+    } else {
+        selectedRare = 'knife';
     }
 
-
-
-    // Если по какой-то причине редкость не определилась
-    if (!selectedRare) {
-        console.error('Ошибка: не удалось определить редкость скина');
-        return null;
-    }
-
-    // Отбираем только те скины, которые соответствуют выбранной редкости
+    // Отбираем скины, которые соответствуют выбранной редкости
     const filteredSkins = arr.filter(skin => skin.rare === selectedRare);
 
-    // Выбираем случайный скин из выбранных
+    // Если нет скинов, соответствующих редкости, выходим
+    if (filteredSkins.length === 0) return null;
+
+    // Теперь выбираем случайный скин из отфильтрованных
     const chosenSkin = filteredSkins[Math.floor(Math.random() * filteredSkins.length)];
 
     // Генерация случайной стоимости
     const price = getRandomNumber(chosenSkin.minCost, chosenSkin.maxCost);
 
-
-
     return { ...chosenSkin, price };
 };
 
+function openCase(caseArray, caseNumber) {
+    // Проверяем, хватает ли баланса
+    if (balance < 250) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
 
+    staticOpenCase++;
+    if  (themeToggle.checked) {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+    } else {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+    }
+
+
+    // Списываем стоимость кейса
+    balance -= 250;
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    }
+
+
+    // Используем getRandomSkin для выбора скина с учетом шансов
+    const randomSkin = getRandomSkin(caseArray);
+
+    // Если случайный скин не был найден, выходим из функции
+    if (!randomSkin) {
+        alert('Не удалось выбрать скин.');
+        return;
+    }
+
+    // Формируем индекс скина для передачи в createModal
+    const skinIndex = caseArray.findIndex(skin => skin.name === randomSkin.name && skin.rare === randomSkin.rare);
+
+    // Показываем модальное окно с информацией о выпавшем скине
+    createModal(randomSkin, skinIndex, caseNumber);  // Передаем данные о скине
+}
+
+function openCase5x(caseArray, caseNumber) {
+    if (balance < 1250) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 5;
+    if  (themeToggle.checked) {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+    } else {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+    }
+
+    balance -= 1250;
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    }
+
+    const skins = [];
+    for (let i = 0; i < 5; i++) {
+        // Используем getRandomSkin для выбора скина с учетом шансов
+        const randomSkin = getRandomSkin(caseArray);
+
+        // Если не удалось выбрать скин, выходим из цикла
+        if (!randomSkin) {
+            alert('Не удалось выбрать скин.');
+            return;
+        }
+
+        // Сохраняем индекс скина для корректного отображения изображения
+        const randomIndex = caseArray.findIndex(skin => skin.name === randomSkin.name && skin.rare === randomSkin.rare);
+
+        // Добавляем скин в массив с изображением
+        skins.push({
+            ...randomSkin,
+            imagePath: `images/${caseNumber}_${randomIndex + 1}.png` // Генерация пути к изображению
+        });
+
+        // Добавляем скин в инвентарь
+        inventory.push({ ...randomSkin, image: `images/${caseNumber}_${randomIndex + 1}.png` });
+    }
+
+    // Обновляем инвентарь на странице
+    inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+    <div class="inventory-col-vo">${inventory.length}</div>`;
+
+    // Показываем модальное окно с 5 скинами
+    createModal510x(skins, 5);
+}
+
+
+function openCase10x(caseArray, caseNumber) {
+    if (balance < 2500) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 10;
+    if  (themeToggle.checked) {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+    } else {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+    }
+
+    balance -= 2500;
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+    }
+
+    const skins = [];
+    for (let i = 0; i < 10; i++) {
+        // Используем getRandomSkin для выбора скина с учетом шансов
+        const randomSkin = getRandomSkin(caseArray);
+
+        // Если не удалось выбрать скин, выходим из цикла
+        if (!randomSkin) {
+            alert('Не удалось выбрать скин.');
+            return;
+        }
+
+        // Сохраняем индекс скина для корректного отображения изображения
+        const randomIndex = caseArray.findIndex(skin => skin.name === randomSkin.name && skin.rare === randomSkin.rare);
+
+        // Добавляем скин в массив с изображением
+        skins.push({
+            ...randomSkin,
+            imagePath: `images/${caseNumber}_${randomIndex + 1}.png` // Генерация пути к изображению
+        });
+
+        // Добавляем скин в инвентарь
+        inventory.push({ ...randomSkin, image: `images/${caseNumber}_${randomIndex + 1}.png` });
+    }
+
+    // Обновляем инвентарь на странице
+    if(themeToggle.checked) {
+        inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    } else {
+        inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    }
+
+    // Показываем модальное окно с 10 скинами
+    createModal510x(skins, 10);
+}
+
+
+btnOpenCaseOne.addEventListener('click', () => openCase(caseOneArr, 1));
+btnOpenCaseTwo.addEventListener('click', () => openCase(caseTwoArr, 2));
+btnOpenCaseThree.addEventListener('click', () => openCase(caseThreeArr, 3));
+btnOpenCaseOne5x.addEventListener('click', () => openCase5x(caseOneArr, 1));
+btnOpenCaseTwo5x.addEventListener('click', () => openCase5x(caseTwoArr, 2));
+btnOpenCaseThree5x.addEventListener('click', () => openCase5x(caseThreeArr, 3));
+btnOpenCaseOne10x.addEventListener('click', () => openCase10x(caseOneArr, 1));
+btnOpenCaseTwo10x.addEventListener('click', () => openCase10x(caseTwoArr, 2));
+btnOpenCaseThree10x.addEventListener('click', () => openCase10x(caseThreeArr, 3));
 
 const createModal = (skin, index, caseNumber) => {
     // Удаляем старое модальное окно, если оно существует
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
 
-    // Создаем новое модальное окно
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-
     // Формируем путь к картинке с учетом номера кейса
     const imagePath = `images/${caseNumber}_${index + 1}.png`;  // caseNumber - номер кейса (1, 2, или 3)
 
+
+    // Создаем новое модальное окно
+    const modal = document.createElement('div');
+
+    if  (themeToggle.checked) {
+        modal.className = 'modalBlack';
+        modal.style.backgroundColor = '#111';
+        modal.innerHTML = `
+        <h2 style="color: snow;">Вам выпал предмет!</h2>
+        <img src="${imagePath}" alt="${skin.name}" style="width: 80%; border-radius: 8px; margin: 10px 0;">
+        <p style="color: snow;"><strong style="color: snow;">${skin.name}</strong></p>
+        <p style="color: snow;">Редкость: <span style="color: snow;">${skin.rare}</span></p>
+        <p style="color: snow;">Стоимость: <span style="color: snow;">${skin.price} ₽</span></p>
+        <button class="close-modal" style="margin-top: 20px; padding: 10px 20px; background: #d34baf; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
+    `;
+    } else {
+        modal.className = 'modal';
     // Контент модального окна
+    modal.style.backgroundColor = '#fff';
     modal.innerHTML = `
         <h2>Вам выпал предмет!</h2>
         <img src="${imagePath}" alt="${skin.name}" style="width: 80%; border-radius: 8px; margin: 10px 0;">
@@ -492,6 +652,9 @@ const createModal = (skin, index, caseNumber) => {
         <p>Стоимость: <span>${skin.price} ₽</span></p>
         <button class="close-modal" style="margin-top: 20px; padding: 10px 20px; background: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
     `;
+    }
+
+
 
     document.body.appendChild(modal);
 
@@ -510,258 +673,97 @@ const createModal = (skin, index, caseNumber) => {
 
     modal.querySelector('.close-modal').addEventListener('click', closeModal);
 
-
-    if (skin.rare === 'arm' ) {
-        staticArmCase++;
-        staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr>`;
-    } else if (skin.rare === 'zap' ) {
-        staticZapCase++;
-        staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr>`;
-    } else if (skin.rare === 'zas' ) {
-        staticZasCase++;
-        staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr>`;
-    } else if (skin.rare === 'tai' ) {
-        staticTaiCase++;
-        staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr>`;
-    } else if (skin.rare === 'knife' ) {
-        staticKnifeCase++;
-        staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr>`;
-    }
-
-    inventory.push({name: skin.name, rare: skin.rare, price: skin.price, image: `images/${caseNumber}_${index + 1}.png`});
-    
-};
-
-
-
-
-// Открытие кейса 1
-btnOpenCaseOne.addEventListener('click', () => {
-    // Проверяем, хватает ли баланса
-    if (balance < 250) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-    staticOpenCase++
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`
-    // Списываем стоимость кейса
-    balance -= 250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    // Выбираем случайный скин
-    const randomIndex = Math.floor(Math.random() * caseOneArr.length);
-    const randomSkin = { ...caseOneArr[randomIndex], price: getRandomNumber(caseOneArr[randomIndex].minCost, caseOneArr[randomIndex].maxCost) };
-
-    // Показываем модальное окно с информацией о выпавшем скине
-    createModal(randomSkin, randomIndex, 1);  // Передаем номер кейса (1 для caseOne)
-});
-
-
-
-
-
-const createModal5x = (skins) => {
-    const existingModal = document.querySelector('.modal');
-    if (existingModal) existingModal.remove();
-
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-
-    modal.innerHTML = `
-        <h2 style="margin-bottom: 1vh;">Вам выпало 5 предметов!</h2>
-        <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw;"></div>
-        <button class="close-modal" style="margin-top: 5vh; padding: 2vh 5vh; background: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
-    `;
-
-    const skinsContainer = modal.querySelector('.skins-container');
-    skins.forEach((skin) => {
-        const skinElement = document.createElement('div');
-        skinElement.style = "text-align: center; width: 8vw; border: 1px solid #ccc; border-radius: 8px; padding: 10px;";
-        if (skin.rare === 'arm') {
-            skinElement.style = "text-align: center; width: 10vw; border: 2px solid rgb(81, 106, 242); border-radius: 8px; padding: 10px;";
-        } else if (skin.rare === 'zap') {
-            skinElement.style = "text-align: center; width: 10vw; border: 2px solid rgb(127, 80, 246); border-radius: 8px; padding: 10px;";
-        } else if (skin.rare === 'zas') {
-            skinElement.style = "text-align: center; width: 10vw; border: 2px solid rgb(193, 66, 222); border-radius: 8px; padding: 10px;";
-        } else if (skin.rare === 'tai') {
-            skinElement.style = "text-align: center; width: 10vw; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;";
-        } else if (skin.rare === 'knife') {
-            skinElement.style = "text-align: center; width: 10vw; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;";
-        }
-        skinElement.innerHTML = `
-            <img src="${skin.imagePath}" alt="${skin.name}" style="width: 100%; border-radius: 8px;">
-            <p><strong>${skin.name}</strong></p>
-            <p>Редкость: <span>${skin.rare}</span></p>
-            <p>Стоимость: <span>${skin.price} ₽</span></p>
-        `;
-
-
-
-        skinsContainer.appendChild(skinElement);
+    if  (themeToggle.checked) {
 
         if (skin.rare === 'arm' ) {
             staticArmCase++;
-            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr>`;
+            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;'>`;
         } else if (skin.rare === 'zap' ) {
             staticZapCase++;
-            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr>`;
+            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;'>`;
         } else if (skin.rare === 'zas' ) {
             staticZasCase++;
-            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr>`;
+            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;'>`;
         } else if (skin.rare === 'tai' ) {
             staticTaiCase++;
-            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr>`;
+            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;'>`;
         } else if (skin.rare === 'knife' ) {
             staticKnifeCase++;
-            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr>`;
+            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;'>`;
         }
-    });
-
-    document.body.appendChild(modal);
-
-    const closeModal = () => {
-        modal.remove();
-        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
-    };
-
-    const handleEscapeKey = (event) => {
-        if (event.key === 'Escape') {
-            closeModal();
+    } else {
+        if (skin.rare === 'arm' ) {
+            staticArmCase++;
+            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;'>`;
+        } else if (skin.rare === 'zap' ) {
+            staticZapCase++;
+            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;'>`;
+        } else if (skin.rare === 'zas' ) {
+            staticZasCase++;
+            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;'>`;
+        } else if (skin.rare === 'tai' ) {
+            staticTaiCase++;
+            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;'>`;
+        } else if (skin.rare === 'knife' ) {
+            staticKnifeCase++;
+            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;'>`;
         }
-    };
+    }
 
-    document.addEventListener('keydown', handleEscapeKey);
-
-    modal.querySelector('.close-modal').addEventListener('click', closeModal);
+    inventory.push({name: skin.name, rare: skin.rare, price: skin.price, image: `images/${caseNumber}_${index + 1}.png`});
+    if(themeToggle.checked) {
+        inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    } else {
+        inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    }
 };
 
-// Открытие кейса 1 5x
-btnOpenCaseOne5x.addEventListener('click', () => {
-    if (balance < 1250) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 5;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 1250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(Math.random() * caseOneArr.length);
-        const randomSkin = {
-            ...caseOneArr[randomIndex],
-            price: getRandomNumber(caseOneArr[randomIndex].minCost, caseOneArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/1_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/1_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal5x(skins);
-});
-
-//открытие кейса 2 5x
-btnOpenCaseTwo5x.addEventListener('click', () => {
-    if (balance < 1250) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 5;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 1250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(Math.random() * caseTwoArr.length);
-        const randomSkin = {
-            ...caseTwoArr[randomIndex],
-            price: getRandomNumber(caseTwoArr[randomIndex].minCost, caseTwoArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/2_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/2_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal5x(skins);
-});
-
-//открытие кейса 3 5x
-btnOpenCaseThree5x.addEventListener('click', () => {
-    if (balance < 1250) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 5;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 1250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(Math.random() * caseThreeArr.length);
-        const randomSkin = {
-            ...caseThreeArr[randomIndex],
-            price: getRandomNumber(caseThreeArr[randomIndex].minCost, caseThreeArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/3_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/3_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal5x(skins);
-});
-
-const createModal10x = (skins) => {
+const createModal510x = (skins, itemCount) => {
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
 
     const modal = document.createElement('div');
-    modal.className = 'modal';
-
-    modal.innerHTML = `
-        <h2 style="margin-bottom: 1vh;">Вам выпало 10 предметов!</h2>
+        if  (themeToggle.checked) {
+            modal.className = 'modalBlack';
+            modal.style.backgroundColor = '#111';
+            modal.innerHTML = `
+            <h2 style="margin-bottom: 1vh; color: snow;">Вам выпало ${itemCount} предметов!</h2>
+            <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw; color: snow"></div>
+            <button class="close-modal" style="margin-top: 5vh; padding: 2vh 5vh; background: #d34baf;; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
+        `;
+        } else {
+            modal.className = 'modal';
+        // Контент модального окна
+        modal.style.backgroundColor = '#fff';
+        modal.innerHTML = `
+        <h2 style="margin-bottom: 1vh;">Вам выпало ${itemCount} предметов!</h2>
         <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw;"></div>
         <button class="close-modal" style="margin-top: 5vh; padding: 2vh 5vh; background: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
     `;
+        }
+
+
 
     const skinsContainer = modal.querySelector('.skins-container');
     skins.forEach((skin) => {
         const skinElement = document.createElement('div');
-        skinElement.style = "text-align: center; width: 8vw; border: 1px solid #ccc; border-radius: 8px; padding: 10px;";
+        skinElement.style = `text-align: center; width: ${itemCount === 5 ? '8vw' : '9vw'}; border: 1px solid #ccc; border-radius: 8px; padding: 10px;`;
+        
+        // Apply different styles based on rarity
         if (skin.rare === 'arm') {
-            skinElement.style = "text-align: center; width: 9vw; border: 2px solid rgb(81, 106, 242); border-radius: 8px; padding: 10px;";
+            skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(81, 106, 242); border-radius: 8px; padding: 10px;`;
         } else if (skin.rare === 'zap') {
-            skinElement.style = "text-align: center; width: 9vw; border: 2px solid rgb(127, 80, 246); border-radius: 8px; padding: 10px;";
+            skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(127, 80, 246); border-radius: 8px; padding: 10px;`;
         } else if (skin.rare === 'zas') {
-            skinElement.style = "text-align: center; width: 9vw; border: 2px solid rgb(193, 66, 222); border-radius: 8px; padding: 10px;";
+            skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(193, 66, 222); border-radius: 8px; padding: 10px;`;
         } else if (skin.rare === 'tai') {
-            skinElement.style = "text-align: center; width: 9vw; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;";
+            skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;`;
         } else if (skin.rare === 'knife') {
-            skinElement.style = "text-align: center; width: 9vw; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;";
+            skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(216, 87, 82); border-radius: 8px; padding: 10px;`;
         }
+        
         skinElement.innerHTML = `
             <img src="${skin.imagePath}" alt="${skin.name}" style="width: 100%; border-radius: 8px;">
             <p><strong>${skin.name}</strong></p>
@@ -771,34 +773,41 @@ const createModal10x = (skins) => {
 
         skinsContainer.appendChild(skinElement);
 
-        if (skin.rare === 'arm') {
-            staticArmCase++;
-            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr>`;
-        } else if (skin.rare === 'zap') {
-            staticZapCase++;
-            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr>`;
-        } else if (skin.rare === 'zas') {
-            staticZasCase++;
-            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr>`;
-        } else if (skin.rare === 'tai') {
-            staticTaiCase++;
-            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr>`;
-        } else if (skin.rare === 'knife') {
-            staticKnifeCase++;
-            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr>`;
-        }
+        if  (themeToggle.checked) {
 
-        if (staticOpenCase === 100) {
-            console.log('eee');
-            const ach = document.createElement('div');
-            ach.innerHTML = `<div class="achivement">
-  <p class="achivement-name">
-  Открывальщик!
-  </p>
-  <p class="achivement-text">
-  Открыть 100 кейсов.
-  </p>
-</div>`
+            if (skin.rare === 'arm' ) {
+                staticArmCase++;
+                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+            } else if (skin.rare === 'zap' ) {
+                staticZapCase++;
+                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+            } else if (skin.rare === 'zas' ) {
+                staticZasCase++;
+                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+            } else if (skin.rare === 'tai' ) {
+                staticTaiCase++;
+                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+            } else if (skin.rare === 'knife' ) {
+                staticKnifeCase++;
+                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+            }
+        } else {
+            if (skin.rare === 'arm' ) {
+                staticArmCase++;
+                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+            } else if (skin.rare === 'zap' ) {
+                staticZapCase++;
+                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+            } else if (skin.rare === 'zas' ) {
+                staticZasCase++;
+                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+            } else if (skin.rare === 'tai' ) {
+                staticTaiCase++;
+                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+            } else if (skin.rare === 'knife' ) {
+                staticKnifeCase++;
+                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+            }
         }
     });
 
@@ -806,7 +815,7 @@ const createModal10x = (skins) => {
 
     const closeModal = () => {
         modal.remove();
-        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+        document.removeEventListener('keydown', handleEscapeKey);
     };
 
     const handleEscapeKey = (event) => {
@@ -816,151 +825,18 @@ const createModal10x = (skins) => {
     };
 
     document.addEventListener('keydown', handleEscapeKey);
-
     modal.querySelector('.close-modal').addEventListener('click', closeModal);
+
+    // Inventory update
+    if(themeToggle.checked) {
+        inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    } else {
+        inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    }
+
 };
-
-
-// Открытие кейса 1 10x
-btnOpenCaseOne10x.addEventListener('click', () => {
-    if (balance < 2500) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 10;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 2500;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 10; i++) {
-        const randomIndex = Math.floor(Math.random() * caseOneArr.length);
-        const randomSkin = {
-            ...caseOneArr[randomIndex],
-            price: getRandomNumber(caseOneArr[randomIndex].minCost, caseOneArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/1_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/1_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal10x(skins);
-});
-
-// Открытие кейса 3 10x
-btnOpenCaseThree10x.addEventListener('click', () => {
-    if (balance < 2500) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 10;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 2500;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 10; i++) {
-        const randomIndex = Math.floor(Math.random() * caseThreeArr.length);
-        const randomSkin = {
-            ...caseThreeArr[randomIndex],
-            price: getRandomNumber(caseThreeArr[randomIndex].minCost, caseThreeArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/3_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/3_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal10x(skins);
-});
-
-// Открытие кейса 2 10x
-btnOpenCaseTwo10x.addEventListener('click', () => {
-    if (balance < 2500) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-
-    staticOpenCase += 10;
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
-
-    balance -= 2500;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    const skins = [];
-    for (let i = 0; i < 10; i++) {
-        const randomIndex = Math.floor(Math.random() * caseTwoArr.length);
-        const randomSkin = {
-            ...caseTwoArr[randomIndex],
-            price: getRandomNumber(caseTwoArr[randomIndex].minCost, caseTwoArr[randomIndex].maxCost)
-        };
-
-        // Добавляем данные для модального окна
-        skins.push({ ...randomSkin, imagePath: `images/2_${randomIndex + 1}.png` });
-        inventory.push({...randomSkin, image: `images/2_${randomIndex + 1}.png`});
-        console.log(inventory)
-    }
-
-    
-
-    // Показываем модальное окно с 5 скинами
-    createModal10x(skins);
-});
-
-// Открытие кейса 2
-btnOpenCaseTwo.addEventListener('click', () => {
-    // Проверяем, хватает ли баланса
-    if (balance < 100) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-        staticOpenCase++
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`
-    // Списываем стоимость кейса
-    balance -= 250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    // Выбираем случайный скин из кейса 2
-    const randomIndex = Math.floor(Math.random() * caseTwoArr.length);
-    const randomSkin = { ...caseTwoArr[randomIndex], price: getRandomNumber(caseTwoArr[randomIndex].minCost, caseTwoArr[randomIndex].maxCost) };
-
-    // Показываем модальное окно с информацией о выпавшем скине
-    createModal(randomSkin, randomIndex, 2);  // Передаем номер кейса (2 для caseTwo)
-});
-
-// Открытие кейса 3
-btnOpenCaseThree.addEventListener('click', () => {
-    // Проверяем, хватает ли баланса
-    if (balance < 100) {
-        alert('Недостаточно средств для открытия кейса.');
-        return;
-    }
-        staticOpenCase++
-    staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`
-    // Списываем стоимость кейса
-    balance -= 250;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
-
-    // Выбираем случайный скин из кейса 3
-    const randomIndex = Math.floor(Math.random() * caseThreeArr.length);
-    const randomSkin = { ...caseThreeArr[randomIndex], price: getRandomNumber(caseThreeArr[randomIndex].minCost, caseThreeArr[randomIndex].maxCost) };
-
-    // Показываем модальное окно с информацией о выпавшем скине
-    createModal(randomSkin, randomIndex, 3);  // Передаем номер кейса (3 для caseThree)
-});
 
 
 inventoryNode.addEventListener('click', () => {
@@ -970,23 +846,39 @@ inventoryNode.addEventListener('click', () => {
 
     // Создаем модальное окно
     const modal = document.createElement('div');
-    modal.className = 'inventory-modal';
+    modal.className = themeToggle.checked ? 'inventory-modal-black' : 'inventory-modal';
+
+
 
     // Создаем контейнер для карточек
     const cardGrid = document.createElement('div');
-    cardGrid.className = 'card-grid';
 
     // Добавляем карточки на основе массива `inventory`
     inventory.forEach(item => {
         const card = document.createElement('div');
         card.className = `card-grid-item ${item.rare}`; // Добавляем класс редкости
 
-        card.innerHTML = `
+        if  (themeToggle.checked) {
+            cardGrid.className = 'card-grid';
+            modal.style.backgroundColor = '#111';
+            card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
+            <p style="color:snow;"><strong style="color:snow;">${item.name}</strong></p>
+            <hr class="hr-card">
+            <button class="weapon-cost-inv" style="font-weight: bold; background-color:#6d14b8; border: none; color:snow" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
+        `;;
+        } else {
+            cardGrid.className = 'card-grid';
+            modal.style.backgroundColor = '#fff';
+            card.innerHTML = `
             <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
             <p><strong>${item.name}</strong></p>
             <hr class="hr-card">
-            <p class="weapon-cost" style="font-weight: bold; font-size:1vw">${item.price} ₽</p>
-        `;
+            <button class="weapon-cost-inv" style="font-weight: bold;" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
+        `;;
+        }
+
+
 
         cardGrid.appendChild(card);
     });
@@ -998,7 +890,7 @@ inventoryNode.addEventListener('click', () => {
     closeButton.className = 'btn-opn';
     closeButton.textContent = 'Закрыть';
     closeButton.style.marginTop = '20px';
-
+    if(themeToggle.checked) { closeButton.style.backgroundColor = '#d34baf'}
     const closeModal = () => {
         modal.remove();
         document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик Escape
@@ -1016,8 +908,159 @@ inventoryNode.addEventListener('click', () => {
         }
     };
 
+
+
+    modal.addEventListener('click', (event) => {
+        if (event.target.classList.contains('weapon-cost-inv')) {
+            // Получаем текст кнопки
+            const buttonText = event.target.textContent;
+    
+            // Извлекаем цену из текста кнопки
+            const priceMatch = buttonText.match(/[\d,\.]+/); // Ищем числовое значение
+            if (!priceMatch) return; // Если не нашли цену, завершаем обработчик
+    
+            const skinSell = parseFloat(priceMatch[0].replace(',', '.')); // Преобразуем в число
+            console.log(`Цена продажи: ${skinSell}`);
+    
+            // Ищем объект в массиве inventory по цене
+            const skinIndex = inventory.findIndex(skin => parseFloat(skin.price) === skinSell);
+    
+            if (skinIndex !== -1) {
+                // Удаляем найденный скин из массива
+                const soldSkin = inventory.splice(skinIndex, 1)[0]; // Удаляем и сохраняем объект
+                console.log('Скин продан:', soldSkin);
+    
+                // Обновляем баланс
+                balance += skinSell;
+
+                if (themeToggle.checked) {
+                    balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+                    inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+                    <div class="inventory-col-vo">${inventory.length}<div>`
+                } else {
+                    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+                    inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+                    <div class="inventory-col-vo">${inventory.length}<div>`
+                }
+
+                // Обновляем модальное окно
+                updateModal();
+            } else {
+                console.log('Скин с указанной ценой не найден в инвентаре.');
+            }
+        }
+    });
+    
+    // Функция для обновления содержимого модального окна
+    function updateModal() {
+        // Находим контейнер с карточками
+        const cardGrid = modal.querySelector('.card-grid');
+        if (!cardGrid) return;
+    
+        // Очищаем контейнер от старых карточек
+        cardGrid.innerHTML = '';
+    
+        // Добавляем новые карточки на основе обновлённого массива inventory
+        inventory.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `card-grid-item ${item.rare}`; // Добавляем класс редкости
+    
+            card.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
+                <p><strong>${item.name}</strong></p>
+                <hr class="hr-card">
+                <button class="weapon-cost-inv" style="font-weight: bold;" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
+            `;
+    
+            cardGrid.appendChild(card);
+        });
+    }
+    
+    
+    
+    
+    
+
+
+
     // Добавляем обработчик нажатия клавиш
     document.addEventListener('keydown', handleEscapeKey);
 });
 
-
+// Добавляем обработчик события на переключатель
+themeToggle.addEventListener('change', () => {
+    const styleId = 'custom-scrollbar'; // Уникальный ID для стилизованного скроллбара
+    const style = document.getElementById(styleId); // Проверяем, есть ли уже такой элемент
+  
+    if (themeToggle.checked) {
+      body.classList.add('dark-theme');
+      document.querySelector('header').classList.add('dark-theme');
+      document.querySelector('nav').classList.add('dark-theme');
+      document.querySelector('.nav-shop').classList.add('dark-theme');
+      document.getElementById('inventory').classList.add('dark-theme');
+      document.querySelector('.main-text').classList.add('dark-theme');
+      document.querySelector('.main-small-text').classList.add('dark-theme');
+      document.querySelectorAll('.case-text').forEach(element => {element.classList.add('dark-theme');});
+      document.querySelectorAll('.grid-item').forEach(element => {element.classList.add('dark-theme');});
+      document.querySelectorAll('hr').forEach(element => {element.classList.add('dark-theme');});
+      document.querySelector('.aside').classList.add('dark-theme');
+      document.querySelectorAll('li').forEach(element => {element.style.color = 'snow';});
+      document.querySelectorAll('.btn-opn').forEach(element => {element.classList.add('dark-theme');});
+      document.querySelectorAll('p').forEach(element => {element.style.color = 'snow';});
+      document.querySelector('.nav-shop').innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh" />Магазин`;
+      document.getElementById('inventory').innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh;"/>Инвентарь`;
+      document.querySelector('.nav-balance').innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+  
+      // Добавление кастомного скроллбара
+      if (!style) { // Если стиль ещё не добавлен, добавляем его
+        const newStyle = document.createElement('style');
+        newStyle.id = styleId;
+        newStyle.textContent = `
+          /* Стилизация для всего скроллбара */
+          ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            padding: 10px;
+          }
+  
+          /* Стилизация фона скроллбара */
+          ::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 10px;
+          }
+  
+          /* Стилизация ползунка скроллбара */
+          ::-webkit-scrollbar-thumb {
+            background: #d34baf;
+            border-radius: 0px 2px 2px 0px;
+          }
+  
+          /* При наведении на ползунок */
+          ::-webkit-scrollbar-thumb:hover {
+            background: #c244a0;
+          }
+        `;
+      document.head.appendChild(newStyle);
+      }
+    } else {
+      body.classList.remove('dark-theme');
+      document.querySelector('header').classList.remove('dark-theme');
+      document.querySelector('nav').classList.remove('dark-theme');
+      document.querySelector('.nav-shop').classList.remove('dark-theme');
+      document.getElementById('inventory').classList.remove('dark-theme');
+      document.querySelector('.main-text').classList.remove('dark-theme');
+      document.querySelector('.main-small-text').classList.remove('dark-theme');
+      document.querySelectorAll('.case-text').forEach(element => {element.classList.remove('dark-theme');});
+      document.querySelectorAll('.grid-item').forEach(element => {element.classList.remove('dark-theme');});
+      document.querySelectorAll('hr').forEach(element => {element.classList.remove('dark-theme');});
+      document.querySelector('.aside').classList.remove('dark-theme');
+      document.querySelectorAll('li').forEach(element => {element.style.color = '#000';});
+      document.querySelectorAll('.btn-opn').forEach(element => {element.classList.remove('dark-theme');});
+      document.querySelectorAll('p').forEach(element => {element.style.color = '#000';});
+      document.querySelector('.nav-shop').innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh" />Магазин`;
+      document.getElementById('inventory').innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh;"/>Инвентарь`;
+      document.querySelector('.nav-balance').innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+      style?.remove();
+    }
+  });
+  

@@ -10,47 +10,54 @@
   <body>
     <header>
       <nav>
-        <button class="nav-shop">
-          <img src="images/cart.svg" alt="" style="width: 2vh" />Магазин
-        </button>
-        <button class="nav-shop" id="inventory">
-          <img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
-        </button>
+        <div class="nav-left">
+          <button class="nav-shop">
+            <img src="images/cart.svg" alt="" style="width: 2vh" />Магазин
+          </button>
+          <button class="nav-shop" id="inventory">
+            <img src="images/cart.svg" alt="" style="width: 2vh;"/>Инвентарь
+          </button>
+          <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle" />
+            <label for="theme-toggle" class="slider"></label>
+          </div>
+        </div>
         <p class="nav-balance">
           <img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс:
-          1000 руб.
+          500 руб.
         </p>
       </nav>
     </header>
+    
     <div class="container">
-      <aside>
+      <aside class="aside">
         <p style="margin-left: 0.5vw; font-size: 1.5vw">Статистика:</p>
         <ul class="lishki">
-          <li id="static-open-case">
+          <li id="static-open-case" class="lishki-color">
             Количество открытых кейсов: 0
             <hr />
           </li>
-          <li id="static-arm-case">
+          <li id="static-arm-case" class="lishki-color">
             Выбито армейского качества: 0
             <hr />
           </li>
-          <li id="static-zap-case">
+          <li id="static-zap-case" class="lishki-color">
             Выбито запрещенного: 0
             <hr />
           </li>
-          <li id="static-zas-case">
+          <li id="static-zas-case" class="lishki-color">
             Выбито засекреченного: 0
             <hr />
           </li>
-          <li id="static-tai-case">
+          <li id="static-tai-case" class="lishki-color">
             Выбито тайного: 0
             <hr />
           </li>
-          <li id="static-knife-case">
+          <li id="static-knife-case" class="lishki-color">
             Выбито редкого: 0
             <hr />
           </li>
-          <li id="static-open-case">
+          <li id="й" class="lishki-color">
             Текущий уровень прокачки: 0
             <hr />
           </li>
@@ -416,11 +423,11 @@
           </div>
           <div class="grid-item" id="case-two">
             <img src="images/case-two.png" alt="" class="case-img" />
-            <p class="case-text">киловатт кейс</p>
+            <p class="case-text">Киловатт кейс</p>
           </div>
           <div class="grid-item" id="case-three">
             <img src="images/case-three.png" alt="" class="case-img" />
-            <p class="case-text">грёзы и кошмары</p>
+            <p class="case-text">Грёзы и кошмары</p>
           </div>
         </div>
       </main>
