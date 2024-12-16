@@ -494,6 +494,10 @@ hr.dark-theme {
   border-color: #d34baf;
 }
 
+hr.light-theme {
+  border-color: #3399ff;
+}
+
 
 #static-open-case.dark-theme {
   color: snow;
@@ -508,10 +512,44 @@ hr.dark-theme {
   background-color: #bb409a;
 }
 
-.statistic-hr {
+.craft-black {
+  width: 100vw;
+  height: 100vh;
+}
+
+.craft-white {
+  width: 100vw;
+  height: 100vh;
+}
+
+.craft-grid-parent {
+  display: grid;
+  grid-template-columns: 10vw repeat(5, 8vw);
+  grid-template-rows:20vh repeat(5, 8vw);
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
+  color: snow;
+  justify-content: center;
+  text-align: center;
+  }
+
+.craft-grid-child { 
+  border: 1px dashed #d34baf;
+  border-radius: 10px;
+  cursor: pointer;
   
 }
 
-.statistic-hr.dark-theme {
-  border-color: #3399ff;
-}
+#craft-grid-child-1 { 
+  grid-area: 1 / 1 / 6 / 2;
+  display: grid;
+ }
+#craft-grid-child-2 { grid-area: 2 / 2 / 3 / 3; }
+#craft-grid-child-3 { grid-area: 2 / 3 / 3 / 4; }
+#craft-grid-child-4 { grid-area: 2 / 4 / 3 / 5; }
+#craft-grid-child-5 { grid-area: 3 / 2 / 4 / 3; }
+#craft-grid-child-6 { grid-area: 3 / 3 / 4 / 4; }
+#craft-grid-child-7 { grid-area: 3 / 4 / 4 / 5; }
+#craft-grid-child-8 { grid-area: 4 / 2 / 5 / 3; }
+#craft-grid-child-9 { grid-area: 4 / 3 / 5 / 4; }
+#craft-grid-child-10 { grid-area: 4 / 4 / 5 / 5; }

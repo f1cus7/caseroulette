@@ -24,6 +24,8 @@ const staticKnifeCaseNode = document.getElementById('static-knife-case');
 const inventoryNode = document.getElementById('inventory');
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
+const craftNode = document.getElementById('craft');
+
 
 // масив кейса 1 
 const caseOneArr = [
@@ -350,8 +352,8 @@ const caseThreeArr = [
     {
         name: '★ Нож-бабочка | Гамма-волны',
         rare: 'knife',
-        minCost: 200000.00,
-        maxCost: 200000.00
+        minCost: 100000.00,
+        maxCost: 100000.00
     }
 ];
 
@@ -375,8 +377,11 @@ const normalizedChances = {
 // фича
 balanceNode.addEventListener(`click`, () => {
     balance++;
-    balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс:
-          ${balance} руб.`
+        if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    };
 })
 
 
@@ -465,18 +470,17 @@ function openCase(caseArray, caseNumber) {
 
     staticOpenCase++;
     if  (themeToggle.checked) {
-        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr class="dark-theme">`;
     } else {
         staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
     }
 
-
     // Списываем стоимость кейса
     balance -= 250;
     if (themeToggle.checked) {
-        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
-        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     }
 
 
@@ -504,16 +508,16 @@ function openCase5x(caseArray, caseNumber) {
 
     staticOpenCase += 5;
     if  (themeToggle.checked) {
-        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr class="dark-theme">`;
     } else {
         staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
     }
 
     balance -= 1250;
     if (themeToggle.checked) {
-        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
-        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     }
 
     const skins = [];
@@ -557,16 +561,15 @@ function openCase10x(caseArray, caseNumber) {
 
     staticOpenCase += 10;
     if  (themeToggle.checked) {
-        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr style='border-color: #d34baf;'>`;
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr class="dark-theme">`;
     } else {
         staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
     }
-
     balance -= 2500;
     if (themeToggle.checked) {
-        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
-        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     }
 
     const skins = [];
@@ -617,11 +620,12 @@ btnOpenCaseOne10x.addEventListener('click', () => openCase10x(caseOneArr, 1));
 btnOpenCaseTwo10x.addEventListener('click', () => openCase10x(caseTwoArr, 2));
 btnOpenCaseThree10x.addEventListener('click', () => openCase10x(caseThreeArr, 3));
 
+
 const createModal = (skin, index, caseNumber) => {
     // Удаляем старое модальное окно, если оно существует
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
-
+      
     // Формируем путь к картинке с учетом номера кейса
     const imagePath = `images/${caseNumber}_${index + 1}.png`;  // caseNumber - номер кейса (1, 2, или 3)
 
@@ -677,36 +681,36 @@ const createModal = (skin, index, caseNumber) => {
 
         if (skin.rare === 'arm' ) {
             staticArmCase++;
-            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;'>`;
+            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr class="dark-theme">`;
         } else if (skin.rare === 'zap' ) {
             staticZapCase++;
-            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;'>`;
+            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr class="dark-theme">`;
         } else if (skin.rare === 'zas' ) {
             staticZasCase++;
-            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;'>`;
+            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr class="dark-theme">`;
         } else if (skin.rare === 'tai' ) {
             staticTaiCase++;
-            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;'>`;
+            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr class="dark-theme">`;
         } else if (skin.rare === 'knife' ) {
             staticKnifeCase++;
-            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;'>`;
+            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr class="dark-theme">`;
         }
     } else {
         if (skin.rare === 'arm' ) {
             staticArmCase++;
-            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;'>`;
+            staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr class="statistic-hr">`;
         } else if (skin.rare === 'zap' ) {
             staticZapCase++;
-            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;'>`;
+            staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr class="statistic-hr">`;
         } else if (skin.rare === 'zas' ) {
             staticZasCase++;
-            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;'>`;
+            staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr class="statistic-hr">`;
         } else if (skin.rare === 'tai' ) {
             staticTaiCase++;
-            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;'>`;
+            staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr class="statistic-hr">`;
         } else if (skin.rare === 'knife' ) {
             staticKnifeCase++;
-            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;'>`;
+            staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr class="statistic-hr">`;
         }
     }
 
@@ -777,36 +781,36 @@ const createModal510x = (skins, itemCount) => {
 
             if (skin.rare === 'arm' ) {
                 staticArmCase++;
-                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr class="dark-theme">`;
             } else if (skin.rare === 'zap' ) {
                 staticZapCase++;
-                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr class="dark-theme">`;
             } else if (skin.rare === 'zas' ) {
                 staticZasCase++;
-                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr class="dark-theme">`;
             } else if (skin.rare === 'tai' ) {
                 staticTaiCase++;
-                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr class="dark-theme">`;
             } else if (skin.rare === 'knife' ) {
                 staticKnifeCase++;
-                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #d34baf;' class="statistic-hr">`;
+                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr class="dark-theme">`;
             }
         } else {
             if (skin.rare === 'arm' ) {
                 staticArmCase++;
-                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+                staticArmCaseNode.innerHTML = `Выбито армейского качества: ${staticArmCase}<hr class="statistic-hr">`;
             } else if (skin.rare === 'zap' ) {
                 staticZapCase++;
-                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+                staticZapCaseNode.innerHTML = `Выбито запрещенного: ${staticZapCase}<hr class="statistic-hr">`;
             } else if (skin.rare === 'zas' ) {
                 staticZasCase++;
-                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+                staticZasCaseNode.innerHTML = `Выбито засекреченного: ${staticZasCase}<hr class="statistic-hr">`;
             } else if (skin.rare === 'tai' ) {
                 staticTaiCase++;
-                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+                staticTaiCaseNode.innerHTML = `Выбито тайного: ${staticTaiCase}<hr class="statistic-hr">`;
             } else if (skin.rare === 'knife' ) {
                 staticKnifeCase++;
-                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr style='border-color: #3399ff;' class="statistic-hr">`;
+                staticKnifeCaseNode.innerHTML = `Выбито редкого: ${staticKnifeCase}<hr class="statistic-hr">`;
             }
         }
     });
@@ -839,6 +843,7 @@ const createModal510x = (skins, itemCount) => {
 };
 
 
+
 inventoryNode.addEventListener('click', () => {
     // Удаляем старое модальное окно, если оно существует
     const existingModal = document.querySelector('.modal');
@@ -866,7 +871,7 @@ inventoryNode.addEventListener('click', () => {
             <p style="color:snow;"><strong style="color:snow;">${item.name}</strong></p>
             <hr class="hr-card">
             <button class="weapon-cost-inv" style="font-weight: bold; background-color:#6d14b8; border: none; color:snow" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
-        `;;
+        `;
         } else {
             cardGrid.className = 'card-grid';
             modal.style.backgroundColor = '#fff';
@@ -885,6 +890,15 @@ inventoryNode.addEventListener('click', () => {
 
     // Добавляем карточки в модальное окно
     modal.appendChild(cardGrid);
+
+    const SellButton = document.createElement('button');
+    SellButton.className = 'btn-opn';
+    SellButton.textContent = 'Продать всё';
+    SellButton.style.marginTop = '20px';
+    if(themeToggle.checked) { SellButton.style.backgroundColor = '#d34baf'}
+
+    modal.appendChild(SellButton);
+    document.body.appendChild(modal);
 
     const closeButton = document.createElement('button');
     closeButton.className = 'btn-opn';
@@ -950,6 +964,25 @@ inventoryNode.addEventListener('click', () => {
             }
         }
     });
+
+    SellButton.addEventListener(`click`, () => {
+        let sum = 0;
+        for (let i = 0; i < inventory.length; i++) {
+            sum += Number(inventory[i].price);
+        }
+        balance += sum;
+        console.log(sum)
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        }
+        inventory.splice(0, inventory.length)
+        updateModal();
+        inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}</div>`;
+        closeModal()
+    })
     
     // Функция для обновления содержимого модального окна
     function updateModal() {
@@ -965,12 +998,22 @@ inventoryNode.addEventListener('click', () => {
             const card = document.createElement('div');
             card.className = `card-grid-item ${item.rare}`; // Добавляем класс редкости
     
-            card.innerHTML = `
+            if (themeToggle.checked) {
+                card.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
+                <p style="color:snow;"><strong style="color:snow;">${item.name}</strong></p>
+                <hr class="hr-card">
+                <button class="weapon-cost-inv" style="font-weight: bold; background-color:#6d14b8; border: none; color:snow" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
+            `;
+            } else {
+                card.innerHTML = `
                 <img src="${item.image}" alt="${item.name}" style="width: 100%; border-radius: 8px;">
                 <p><strong>${item.name}</strong></p>
                 <hr class="hr-card">
                 <button class="weapon-cost-inv" style="font-weight: bold;" id="inv-${item.name}">Продать: + ${item.price} ₽</button>
             `;
+            }
+
     
             cardGrid.appendChild(card);
         });
@@ -987,6 +1030,67 @@ inventoryNode.addEventListener('click', () => {
     document.addEventListener('keydown', handleEscapeKey);
 });
 
+
+const craftModal = (skin) => {
+    // Удаляем старое модальное окно, если оно существует
+    const existingModal = document.querySelector('.modal');
+    if (existingModal) existingModal.remove();
+
+    // Создаем новое модальное окно
+    const modal = document.createElement('div');
+
+    if  (themeToggle.checked) {
+        modal.className = 'modalBlack craft-black';
+
+        modal.style.backgroundColor = '#111';
+        modal.innerHTML = `
+        <div>
+        <div class="craft-grid-parent">
+          <div class="craft-grid-child" id="craft-grid-child-1">
+          ``
+          </div>
+          <div class="craft-grid-child" id="craft-grid-child-2">2</div>
+          <div class="craft-grid-child" id="craft-grid-child-3">3</div>
+          <div class="craft-grid-child" id="craft-grid-child-4">4</div>
+          <div class="craft-grid-child" id="craft-grid-child-5">5</div>
+          <div class="craft-grid-child" id="craft-grid-child-6">6</div>
+          <div class="craft-grid-child" id="craft-grid-child-7">7</div>
+          <div class="craft-grid-child" id="craft-grid-child-8">8</div>
+          <div class="craft-grid-child" id="craft-grid-child-9">9</div>
+          <div class="craft-grid-child" id="craft-grid-child-10">10</div>
+        </div>
+    `;
+    } else {
+        modal.className = 'modal craft-white';
+    // Контент модального окна
+    modal.style.backgroundColor = '#fff';
+    modal.innerHTML = `
+        
+    `;
+    }
+    console.log(skin)
+
+
+    document.body.appendChild(modal);
+
+    const closeModal = () => {
+        modal.remove();
+        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+    };
+
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+
+    modal.querySelector('.close-modal').addEventListener('click', closeModal);
+}
+craftNode.addEventListener('click', () => craftModal(inventory));
+
+
 // Добавляем обработчик события на переключатель
 themeToggle.addEventListener('change', () => {
     const styleId = 'custom-scrollbar'; // Уникальный ID для стилизованного скроллбара
@@ -1002,6 +1106,7 @@ themeToggle.addEventListener('change', () => {
       document.querySelector('.main-small-text').classList.add('dark-theme');
       document.querySelectorAll('.case-text').forEach(element => {element.classList.add('dark-theme');});
       document.querySelectorAll('.grid-item').forEach(element => {element.classList.add('dark-theme');});
+      document.querySelectorAll('hr').forEach(element => {element.classList.remove('light-theme');});
       document.querySelectorAll('hr').forEach(element => {element.classList.add('dark-theme');});
       document.querySelector('.aside').classList.add('dark-theme');
       document.querySelectorAll('li').forEach(element => {element.style.color = 'snow';});
@@ -1042,6 +1147,13 @@ themeToggle.addEventListener('change', () => {
         `;
       document.head.appendChild(newStyle);
       }
+      document.querySelectorAll('.lishki-color');
+      document.getElementById('craft').innerHTML = `<img src="images/craft-black.svg" alt="" style="width: 2vh;"/>Крафт`
+      document.querySelector('.nav-shop').classList.add('dark-theme');
+      document.getElementById('craft').style.backgroundColor = `#121212`
+      document.getElementById('craft').style.color = `snow`
+      inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+      <div class="inventory-col-vo">${inventory.length}</div>`;
     } else {
       body.classList.remove('dark-theme');
       document.querySelector('header').classList.remove('dark-theme');
@@ -1053,14 +1165,19 @@ themeToggle.addEventListener('change', () => {
       document.querySelectorAll('.case-text').forEach(element => {element.classList.remove('dark-theme');});
       document.querySelectorAll('.grid-item').forEach(element => {element.classList.remove('dark-theme');});
       document.querySelectorAll('hr').forEach(element => {element.classList.remove('dark-theme');});
+      document.querySelectorAll('hr').forEach(element => {element.classList.add('light-theme');});
       document.querySelector('.aside').classList.remove('dark-theme');
       document.querySelectorAll('li').forEach(element => {element.style.color = '#000';});
       document.querySelectorAll('.btn-opn').forEach(element => {element.classList.remove('dark-theme');});
       document.querySelectorAll('p').forEach(element => {element.style.color = '#000';});
       document.querySelector('.nav-shop').innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh" />Магазин`;
-      document.getElementById('inventory').innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh;"/>Инвентарь`;
+      document.getElementById('inventory').innerHTML = `<img src="images/card_black.svg" alt="" style="width: 2vh;"/>Инвентарь`;
       document.querySelector('.nav-balance').innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance} руб.`;
       style?.remove();
+      document.getElementById('craft').innerHTML = `<img src="images/craft.svg" alt="" style="width: 2vh;"/>Крафт`
+      document.getElementById('craft').style.backgroundColor = `#fff`
+      document.getElementById('craft').style.color = `#000`
+      inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+      <div class="inventory-col-vo">${inventory.length}</div>`;
     }
   });
-  
