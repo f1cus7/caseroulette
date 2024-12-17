@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кейсы CS</title>
+    <link rel="icon" href="images/Weapon-case-1-1-.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-left">
+          <button class="nav-shop">
+            <img src="images/cart.svg" alt="" style="width: 2vh" />Магазин
+          </button>
+          <button class="nav-shop" id="inventory">
+            <img src="images/cart.svg" alt="" style="width: 2vh;"/>Инвентарь
+          </button>
+          <button class="nav-shop" id="craft">
+            <img src="images/craft.svg" alt="" style="width: 2vh;"/>Крафт
+          </button>
+          <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle" />
+            <label for="theme-toggle" class="slider" ></label>
+          </div>
+        </div>
+        <p class="nav-balance">
+          <img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс:
+          500 руб.
+        </p>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <aside class="aside">
+        <p style="margin-left: 0.5vw; font-size: 1.5vw">Статистика:</p>
+        <ul class="lishki">
+          <li id="static-open-case" class="lishki-color">
+            Количество открытых кейсов: 0
+            <hr />
+          </li>
+          <li id="static-arm-case" class="lishki-color">
+            Выбито армейского качества: 0
+            <hr />
+          </li>
+          <li id="static-zap-case" class="lishki-color">
+            Выбито запрещенного: 0
+            <hr />
+          </li>
+          <li id="static-zas-case" class="lishki-color">
+            Выбито засекреченного: 0
+            <hr />
+          </li>
+          <li id="static-tai-case" class="lishki-color">
+            Выбито тайного: 0
+            <hr />
+          </li>
+          <li id="static-knife-case" class="lishki-color">
+            Выбито редкого: 0
+            <hr />
+          </li>
+          <li id="й" class="lishki-color">
+            Текущий уровень прокачки: 0
+            <hr />
+          </li>
+          <li></li>
+        </ul>
+      </aside>
+      <main>
+        <div class="change-text">
+          <p class="main-text">Добро пожаловать на сайт по открытию кейсов!</p>
+          <p class="main-small-text">
+            Кратко об игре: У тебя есть баланс, c помощью которого ты можешь
+            открывать кейсы на выбор. Дроп который с них падает - ты можешь
+            продавать, а на заработанные деньги либо открывать еще, либо зайти в
+            магазин и купить предметы, повышающие твой дропрейт!
+          </p>
+        </div>
+
+        <div class="case-one-open case-card">
+          <div class="card-grid">
+            <div class="card-grid-item arm">
+                <img src="images/1_1.png" alt="" class="img-weapon" />
+                <p>SCAR-20 | Первопроходец</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 101.09 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+                <img src="images/1_2.png" alt="" class="img-weapon" />
+                <p>M249 | Гипнотизёр</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 111.05 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+                <img src="images/1_3.png" alt="" class="img-weapon" />
+                <p>AUG | Роскошная отделка</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 239.91 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+                <img src="images/1_4.png" alt="" class="img-weapon" />
+                <p>MP5-SD | Статика</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 170.15 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+                <img src="images/1_5.png" alt="" class="img-weapon" />
+                <p>Револьвер R8 | Танго</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 247.74 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+                <img src="images/1_6.png" alt="" class="img-weapon" />
+                <p>Desert Eagle | Каллиграффити</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">13.22 ₽ - 418.61 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+                <img src="images/1_7.png" alt="" class="img-weapon" />
+                <p>Dual Berettas | Гидрострелы</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">106.79 ₽ - 684.86 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+                <img src="images/1_8.png" alt="" class="img-weapon" />
+                <p>MAC-10 | Сайба о́ни</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">116.96 ₽ - 637.16 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+                <img src="images/1_9.png" alt="" class="img-weapon" />
+                <p>SSG 08 | Метрополитен</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">108.82 ₽ - 1063.59 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+                <img src="images/1_10.png" alt="" class="img-weapon" />
+                <p>P90 | Резвый Рэнди</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">121.02 ₽ - 591.6 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+                <img src="images/1_11.png" alt="" class="img-weapon" />
+                <p>M4A4 | Турбина</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">106.79 ₽ - 1428.81 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+                <img src="images/1_12.png" alt="" class="img-weapon" />
+                <p>P250 | Эпицентр</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">603.09 ₽ - 2654.01 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+                <img src="images/1_13.png" alt="" class="img-weapon" />
+                <p>UMP-45 | Неонуар</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">612.24 ₽ - 2914.57 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+                <img src="images/1_15.png" alt="" class="img-weapon" />
+                <p>AK-47 | Дилетанты</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">1137.02 ₽ - 9751.76 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+                <img src="images/1_14.png" alt="" class="img-weapon" />
+                <p>Glock-18 | Золотой зубок</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">1 604.85 ₽ - 14748.67 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+                <img src="images/1_16.png" alt="" class="img-weapon" />
+                <p>M4A1-S | Вейпорвейв</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">6 450.94 ₽ - 29255.3 ₽</p>
+            </div>
+            <div class="card-grid-item knife">
+                <img src="images/1_17.png" alt="" class="img-weapon" />
+                <p>★ Кукри | Градиент</p>
+                <hr class="hr-card" />
+                <p class="weapon-cost">69 204.92 ₽ - 48 990.19 ₽</p>
+            </div>
+        </div>
+
+          <button class="btn-opn" id="btn-open-case-one">Открыть</button>
+          <button class="btn-opn" id="btn-open-case-one-5x">Открыть 5x</button>
+          <button class="btn-opn" id="btn-open-case-one-10x">Открыть 10x</button>
+        </div>
+        <div class="case-two-open case-card">
+          <div class="card-grid">
+            <div class="card-grid-item arm">
+              <img src="images/2_1.png" alt="" class="img-weapon" />
+              <p>Dual Berettas | Убежище</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 79.33 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/2_2.png" alt="" class="img-weapon" />
+              <p>UMP-45 | Мотор</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 90.51 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/2_3.png" alt="" class="img-weapon" />
+              <p>Nova | Печать тьмы</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 81.36 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/2_4.png" alt="" class="img-weapon" />
+              <p>XM1014 | Ирэдзуми</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 97.63 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/2_5.png" alt="" class="img-weapon" />
+              <p>Tec-9 | Шлак</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 104.75 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/2_6.png" alt="" class="img-weapon" />
+              <p>SSG 08 | Катастрофа</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 183.06 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/2_7.png" alt="" class="img-weapon" />
+              <p>MAC-10 | Световой короб</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">6.10 ₽ - 303.07 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/2_8.png" alt="" class="img-weapon" />
+              <p>Five-SeveN | Гибрид</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">75.26 ₽ - 604.11 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/2_9.png" alt="" class="img-weapon" />
+              <p>Sawed-Off | Аналоговый ввод</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">77.29 ₽ - 610.21 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/2_10.png" alt="" class="img-weapon" />
+              <p>MP7 | Улыбочка</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">75.26 ₽ - 656.99 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/2_11.png" alt="" class="img-weapon" />
+              <p>Glock-18 | Блок-18</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">76.28 ₽ - 706.83 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/2_12.png" alt="" class="img-weapon" />
+              <p>M4A4 | Мастер травли</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">76.28 ₽ - 759.71 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/2_13.png" alt="" class="img-weapon" />
+              <p>Zeus x27 | Олимп</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">674.28 ₽ - 4 428.09 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/2_15.png" alt="" class="img-weapon" />
+              <p>M4A1-S | Чёрный лотос</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">1 079.05 ₽ - 7 323.54 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/2_14.png" alt="" class="img-weapon" />
+              <p>USP-S | Зубоскал</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">683.44 ₽ - 5 767.50 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+              <img src="images/2_16.png" alt="" class="img-weapon" />
+              <p>AWP | Хромовая пушка</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">2 252.69 ₽ - 25 943.07 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+              <img src="images/2_17.png" alt="" class="img-weapon" />
+              <p>AK-47 | Наследство</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">7 947.98 ₽ - 45 208.42 ₽</p>
+            </div>
+            <div class="card-grid-item knife">
+              <img src="images/2_18.png" alt="" class="img-weapon" />
+              <p>★ Кукри | Поверхностная закалка</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">69 204.92 ₽ - 70 000.00 ₽</p>
+            </div>
+          </div>
+          <button class="btn-opn" id="btn-open-case-two">Открыть</button>
+          <button class="btn-opn" id="btn-open-case-two-5x">Открыть 5x</button>
+          <button class="btn-opn" id="btn-open-case-two-10x">Открыть 10x</button>
+        </div>
+        <div class="case-three-open case-card">
+          <div class="card-grid">
+            <div class="card-grid-item arm">
+              <img src="images/3_1.png" alt="" class="img-weapon" />
+              <p>SCAR-20 | Экзорцыпа</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 79.33 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/3_2.png" alt="" class="img-weapon" />
+              <p>MAG-7 | Предсказание</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 90.51 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/3_3.png" alt="" class="img-weapon" />
+              <p>MP5-SD | Юный некромант</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 81.36 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/3_4.png" alt="" class="img-weapon" />
+              <p>P2000 | Поднятие духов</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 97.63 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/3_5.png" alt="" class="img-weapon" />
+              <p>Sawed-Off | Спиритическая доска</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 104.75 ₽</p>
+            </div>
+            <div class="card-grid-item arm">
+              <img src="images/3_6.png" alt="" class="img-weapon" />
+              <p>MAC-10 | Заточение</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">5.09 ₽ - 183.06 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/3_7.png" alt="" class="img-weapon" />
+              <p>Five-SeveN | Каракули</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">4.07 ₽ - 303.07 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/3_8.png" alt="" class="img-weapon" />
+              <p>XM1014 | Зомби-страйк</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">25.43 ₽ - 604.11 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/3_9.png" alt="" class="img-weapon" />
+              <p>ПП-19 «Бизон» | Космокот</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">24.41 ₽ - 610.21 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/3_10.png" alt="" class="img-weapon" />
+              <p>G3SG1 | Поляна грёз</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">24.41 ₽ - 656.99 ₽</p>
+            </div>
+            <div class="card-grid-item zap">
+              <img src="images/3_11.png" alt="" class="img-weapon" />
+              <p>USP-S | Билет в ад</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">27.46 ₽ - 706.83 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/3_12.png" alt="" class="img-weapon" />
+              <p>M4A1-S | Ночной ужас</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">36.61 ₽ - 759.71 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/3_13.png" alt="" class="img-weapon" />
+              <p>MP7 | Дух бездны</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">102.72 ₽ - 4 428.09 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/3_15.png" alt="" class="img-weapon" />
+              <p>Dual Berettas | Плод воображения</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">105.77 ₽ - 7 323.54 ₽</p>
+            </div>
+            <div class="card-grid-item zas">
+              <img src="images/3_14.png" alt="" class="img-weapon" />
+              <p>FAMAS | Быстрые движения глаз</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">102.72 ₽ - 5 767.50 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+              <img src="images/3_16.png" alt="" class="img-weapon" />
+              <p>MP9 | Звёздный защитник</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">200.35 ₽ - 25 943.07 ₽</p>
+            </div>
+            <div class="card-grid-item tai">
+              <img src="images/3_17.png" alt="" class="img-weapon" />
+              <p>AK-47 | Пожелание на ночь</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">464.78 ₽ - 45 208.42 ₽</p>
+            </div>
+            <div class="card-grid-item knife">
+              <img src="images/3_18.png" alt="" class="img-weapon" />
+              <p>★ Нож-бабочка | Гамма-волны</p>
+              <hr class="hr-card" />
+              <p class="weapon-cost">100 000.00 ₽</p>
+            </div>
+          </div>
+          <button class="btn-opn" id="btn-open-case-three">Открыть</button>
+          <button class="btn-opn" id="btn-open-case-three-5x">Открыть 5x</button>
+          <button class="btn-opn" id="btn-open-case-three-10x">Открыть 10x</button>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item" id="case-one">
+            <img src="images/case-one.png" alt="" class="case-img" />
+            <p class="case-text">Галерейный кейс</p>
+          </div>
+          <div class="grid-item" id="case-two">
+            <img src="images/case-two.png" alt="" class="case-img" />
+            <p class="case-text">Киловатт кейс</p>
+          </div>
+          <div class="grid-item" id="case-three">
+            <img src="images/case-three.png" alt="" class="case-img" />
+            <p class="case-text">Грёзы и кошмары</p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="scripts/index.js" defer></script>
+  </body>
+</html>
