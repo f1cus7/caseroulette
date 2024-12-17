@@ -1039,37 +1039,186 @@ const craftModal = (skin) => {
     // Создаем новое модальное окно
     const modal = document.createElement('div');
 
-    if  (themeToggle.checked) {
+    if (themeToggle.checked) {
         modal.className = 'modalBlack craft-black';
-
         modal.style.backgroundColor = '#111';
+
         modal.innerHTML = `
-        <div>
-        <div class="craft-grid-parent">
-          <div class="craft-grid-child" id="craft-grid-child-1">
-          ``
-          </div>
-          <div class="craft-grid-child" id="craft-grid-child-2">2</div>
-          <div class="craft-grid-child" id="craft-grid-child-3">3</div>
-          <div class="craft-grid-child" id="craft-grid-child-4">4</div>
-          <div class="craft-grid-child" id="craft-grid-child-5">5</div>
-          <div class="craft-grid-child" id="craft-grid-child-6">6</div>
-          <div class="craft-grid-child" id="craft-grid-child-7">7</div>
-          <div class="craft-grid-child" id="craft-grid-child-8">8</div>
-          <div class="craft-grid-child" id="craft-grid-child-9">9</div>
-          <div class="craft-grid-child" id="craft-grid-child-10">10</div>
-        </div>
-    `;
+            <div>
+                <div class="craft-grid-parent">
+                    <div class="craft-grid-child" id="craft-grid-child-1"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-2"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-3"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-4"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-5"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-6"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-7"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-8"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-9"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-10"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-11"><div class="craft-text">Крафт</div></div>
+                    <div class="craft-grid-child" id="craft-grid-child-12"><img src="images/right-black.svg" class=right-black-img><br><button class="btn-opn dark-theme" id="start-craft">Жми!</button></div>
+                    <div class="craft-grid-child" id="craft-grid-child-13"></div>
+                    <div class="craft-grid-child" id="craft-grid-child-14"><div class="craft-text"></div></div>
+                </div>
+            </div>
+        `;
+
+
+
+        
+
+        // Добавляем модальное окно в DOM
+        document.body.appendChild(modal);
+
+        // Находим контейнер после добавления модального окна в DOM
+        const container = document.getElementById('craft-grid-child-1');
+
+        // Перебираем inventory, чтобы добавить изображения и цены
+        inventory.forEach((item, index) => {
+            // Создаем контейнер для каждого элемента
+            const itemDiv = document.createElement('div');
+    
+            // Присваиваем уникальный id каждому div
+            itemDiv.id = `item-${index}`;  // Используем индекс для уникального id
+            itemDiv.className = `inventory-items-for-craft`
+    
+            // Создаем элементы для изображения и цены
+            const img = document.createElement('img');
+            const price = document.createElement('p');
+    
+            // Устанавливаем данные для изображения и цены
+            img.src = item.image;  // Используем свойство image из объекта
+            price.textContent = `Цена: ${item.price} ₽`;  // Устанавливаем цену как текст
+    
+            img.alt = item.name;    // Используем свойство name для alt
+            img.style.width = '70%';
+            img.style.margin = '10px auto';
+            price.style.margin = '10px auto';
+
+            // Добавляем логику для изменения цвета границы в зависимости от rare
+            let borderColor = 'gray';  // Значение по умолчанию для common или неизвестных rare
+    
+            // Логика для установки цвета границы в зависимости от редкости (rare)
+            if (item.rare === 'arm') {
+                borderColor = 'rgb(81, 106, 242)';  // Общая редкость
+            } else if (item.rare === 'zap') {
+                borderColor = 'rgb(127, 80, 246)';  // Необычная редкость
+            } else if (item.rare === 'zas') {
+                borderColor = 'rgb(193, 66, 222)';   // Редкая
+            } else if (item.rare === 'tai') {
+                borderColor = 'rgb(216, 87, 82)'; // Эпическая
+            } else if (item.rare === 'knife') {
+                borderColor = 'rgb(216, 87, 82)'; // Легендарная
+            } else {
+                borderColor = 'black';  // По умолчанию для нераспознанных значений
+            }
+
+            // Устанавливаем стиль для контейнера, добавляем border
+            itemDiv.style.border = `2px solid ${borderColor}`;
+            itemDiv.style.borderRadius = '8px';  // Опционально, чтобы границы были скругленные
+            itemDiv.style.margin = `0vh`
+            itemDiv.style.width = `8vw`
+            itemDiv.style.height = `8vw`
+
+            // Добавляем изображение и цену в контейнер div
+            itemDiv.appendChild(img);
+            itemDiv.appendChild(price);
+    
+            // Добавляем весь div в основной контейнер
+            container.appendChild(itemDiv);
+        });
+
+        // Далее добавим обработчик кликов
+        let currentContainerIndex = 0;  // Начинаем с второго контейнера (index 1 для 'craft-grid-child-2')
+
+        // Находим все элементы с классом 'inventory-items-for-craft'
+        const items = document.querySelectorAll('.inventory-items-for-craft');
+
+        // Проверка: если элементы вообще найдены
+        console.log(`Найдено ${items.length} элементов.`);
+
+        let totalSum = 0;
+
+        // Добавляем обработчик клика для каждого элемента
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                // Находим родительский элемент, из которого мы перемещаем скин
+                const container1 = document.getElementById('craft-grid-child-1');
+
+                // Находим контейнеры для перемещения элементов (например, craft-grid-child-2, craft-grid-child-3 и т.д.)
+                const targetContainers = [
+                    document.getElementById('craft-grid-child-2'),
+                    document.getElementById('craft-grid-child-3'),
+                    document.getElementById('craft-grid-child-4'),
+                    document.getElementById('craft-grid-child-5'),
+                    document.getElementById('craft-grid-child-6'),
+                    document.getElementById('craft-grid-child-7'),
+                    document.getElementById('craft-grid-child-8'),
+                    document.getElementById('craft-grid-child-9'),
+                    document.getElementById('craft-grid-child-10')
+                ];
+
+                // Если текущий контейнер не пуст, перемещаем элемент в следующий контейнер
+                if (currentContainerIndex < targetContainers.length) {
+                    const selectedContainer = targetContainers[currentContainerIndex];
+
+                    // Клонируем элемент, чтобы сохранить оригинальный в первом контейнере
+                    const itemClone = item.cloneNode(true);
+
+                    // Добавляем клон в выбранный контейнер
+                    selectedContainer.appendChild(itemClone);
+
+                    // Удаляем оригинальный элемент из первого контейнера
+                    container1.removeChild(item);
+
+                    // Увеличиваем индекс для следующего контейнера
+                    currentContainerIndex++;
+
+
+                    const price = parseFloat(item.querySelector('p').textContent.replace('Цена: ', '').replace(' ₽', ''));  // Получаем цену скина
+                    totalSum += Math.round(price);  // Добавляем цену скина к общей сумме
+
+
+                    // Логирование
+                    console.log(`Элемент с id ${item.id} перемещён в контейнер ${selectedContainer.id}`);
+                    if (currentContainerIndex === 9) {
+                        document.getElementById("craft-grid-child-11").innerHTML= `<div class="craft-text" style="font-size: 1.8vh">Общая сумма скинов: ${totalSum}<br>
+                        Может выпать скин на сумму от: ${totalSum / 2} до ${totalSum * 1.5}</div>`
+                    } else {
+                        
+                    }
+                } else {
+                    console.log('Все контейнеры заняты, элемент не может быть перемещён.');
+                }
+                
+    document.getElementById('start-craft').addEventListener(`click`, () => {
+        if (currentContainerIndex < 9) {
+            alert (`Осталось добавить ${9 - currentContainerIndex} скинов!`)
+        } else {
+            const morsum = Math.round(getRandomNumber(totalSum/2, totalSum * 1.5))
+            document.getElementById('craft-grid-child-13').innerHTML = `<img src="images/craft-skin.png" class="img-craft-drop">`;
+            document.getElementById('craft-grid-child-14').innerHTML = `<div class="craft-text" style="font-size: 1.8vh; margin-top: 5vh">Его цена: ${morsum}</div>`;
+            inventory.push({name: 'morgen', rare: 'knife', price: morsum, image: `images/craft-skin.png`});
+        }
+    })
+
+            });
+
+        });
     } else {
         modal.className = 'modal craft-white';
-    // Контент модального окна
-    modal.style.backgroundColor = '#fff';
-    modal.innerHTML = `
-        
-    `;
-    }
-    console.log(skin)
+        modal.style.backgroundColor = '#fff';
 
+        // Место для контента, если тема не включена (например, если themeToggle.checked === false)
+        modal.innerHTML = `
+            <p>Контент для светлой темы</p>
+        `;
+        document.body.appendChild(modal);
+    }
+
+
+    console.log(skin);
 
     document.body.appendChild(modal);
 
@@ -1086,8 +1235,9 @@ const craftModal = (skin) => {
 
     document.addEventListener('keydown', handleEscapeKey);
 
-    modal.querySelector('.close-modal').addEventListener('click', closeModal);
+    // modal.querySelector('.close-modal').addEventListener('click', closeModal);
 }
+
 craftNode.addEventListener('click', () => craftModal(inventory));
 
 
