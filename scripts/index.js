@@ -1241,12 +1241,97 @@ MiniGamesNode.addEventListener(`click`, () => {
     if (existingModal) existingModal.remove();
     // Создаем новое модальное окно
     const modal = document.createElement('div');
+    document.querySelector('.theme-switcher').style.display = 'none';
 
     if (themeToggle.checked) {
-        modal.className = 'modalBlack craft-black';
+        modal.className = 'modalBlack modalMinigames-black';
         modal.style.backgroundColor = '#111';
 
-        modal.innerHTML = `<div>privet<div>`;
+        modal.innerHTML = `
+         <div style="font-size: 4vh; display:flex; justify-content:center; color:snow;">Мини-игры</div>
+         <div class="game-container">
+<div class="nvuti-game">
+    <div style="font-size: 3vh; color: snow;">NVUTI</div>
+    <div class="parent-nvuti-grid">
+        <div class="child-nvuti-grid-1">
+            <p style="text-align:left; margin-left: 2vw; color:snow;">Сумма</p>
+            <input type="number" placeholder="10" id="nvuti-input-sum" min="10" style="background-color:#111; color:snow;">
+            <hr style="border-color: #d34baf; width: 70%; margin: 1vh auto 0px">
+        </div>
+        <div class="child-nvuti-grid-2">
+            <button class="sum-up nvuti-buttons btn-color">Удвоить</button>
+            <button class="sum-half nvuti-buttons btn-color">Половина</button><br>
+            <button class="sum-max nvuti-buttons btn-color">Макс</button>
+            <button class="sum-min nvuti-buttons btn-color">Мин</button>
+        </div>
+        <div class="child-nvuti-grid-3">
+            <p style="text-align:left; margin-left: 2vw; color:snow;">Процент</p>
+            <input type="number" placeholder="50" id="nvuti-input-procent" min="1" max="100" style="background-color:#111; color:snow;">
+            <hr style="border-color: #d34baf; width: 70%; margin: 1vh auto 0px">
+        </div>
+        <div class="child-nvuti-grid-4">
+            <button class="procent-up nvuti-buttons btn-color">Удвоить</button>
+            <button class="procent-half nvuti-buttons btn-color">Половина</button><br>
+            <button class="procent-max nvuti-buttons btn-color">Макс</button>
+            <button class="procent-min nvuti-buttons btn-color">Мин</button>
+        </div>
+        <div class="child-nvuti-grid-5">
+            <p id="possible-gain">0.00</p>
+            <p class="possible-gain-text" style="color: snow;">Возможный выигрыш</p> <!-- Заменил на правильный закрывающий тег -->
+            <div class="winorlose"></div>
+        </div>
+        <div class="child-nvuti-grid-6">
+            <p id="min-sums" style="color:snow;">0 - 499999</p>
+            <button class="nvuti-min-btn">Меньше</button>
+        </div>
+        <div class="child-nvuti-grid-7">
+            <p id="max-sums" style="color:snow;">500000 - 999999</p>
+            <button class="nvuti-max-btn">Больше</button>
+        </div>
+    </div>
+</div>
+
+<div class="roulette">
+    <div class="roulette-title">
+        <div style="font-size: 3vh; font-weight:lighter; color:snow">Рулетка</div>
+    </div>
+    <div class="roulette-container">
+        <!-- Первая секция - инпут -->
+        <div class="roulette-input" style="color:snow">
+            <input type="number" id="bet" placeholder="ставка" class="roulete-input" style="background-color:#111; border: 1px solid #d34baf; color:snow;"/>
+        </div>
+
+        <!-- Вторая секция - колесо -->
+        <div class="roulette-wheel-container">
+            <div id="wheel-container">
+                <canvas id="roulette-wheel" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Третья секция - кнопки -->
+        <div class="roulette-buttons">
+            <button id="bet-black" class="button-wheel" style="background-color:black; color:snow">Поставить на черное</button>
+            <button id="bet-red" class="button-wheel" style="background-color:red; color:snow">Поставить на красное</button>
+            <button id="bet-green" class="button-wheel">Поставить на зеленое</button>
+        </div>
+
+        <!-- Четвертая секция - результат -->
+        <div class="roulette-result">
+            <div id="result" style="color:snow">
+                <p>Результат: <span id="result-number">0</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Второй контейнер с дополнительными играми -->
+<div class="second-game-container">
+    <div class="one-more-game">a</div>
+    <div class="another-game">b</div>
+</div>
+
+        `;
+        body.appendChild(modal);
     } else {
         modal.className = 'modal modalMinigames ';
         modal.style.backgroundColor = 'white';
@@ -1254,51 +1339,92 @@ MiniGamesNode.addEventListener(`click`, () => {
 
 
         modal.innerHTML = `
-        <div style="font-size: 4vh; display:flex; justify-content:center">Мини-игры</div>
-        <div class="nvuti-game">
-            <div style="font-size: 3vh">NVUTI</div>
-            <div class="parent-nvuti-grid">
-                <div class="child-nvuti-grid-1">
-                    <p style="text-align:left; margin-left: 2vw">Сумма</p>
-                    <input type="number" placeholder="10" id="nvuti-input-sum" min="10">
-                    <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px">
-                </div>
-                <div class="child-nvuti-grid-2">
-                    <button class="sum-up nvuti-buttons">Удвоить</button>
-                    <button class="sum-half nvuti-buttons">Половина</button><br>
-                    <button class="sum-max nvuti-buttons">Макс</button>
-                    <button class="sum-min nvuti-buttons">Мин</button>
-                </div>
-                <div class="child-nvuti-grid-3">
-                    <p style="text-align:left; margin-left: 2vw">Процент</p>
-                    <input type="number" placeholder="50" id="nvuti-input-procent" min="1" max="100">
-                    <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px">
-                </div>
-                <div class="child-nvuti-grid-4">
-                    <button class="procent-up nvuti-buttons">Удвоить</button>
-                    <button class="procent-half nvuti-buttons">Половина</button><br>
-                    <button class="procent-max nvuti-buttons">Макс</button>
-                    <button class="procent-min nvuti-buttons">Мин</button>
-                </div>
-                <div class="child-nvuti-grid-5">
-                    <p id=possible-gain>0.00</p>
-                    <p class=possible-gain-text>Возможный выигрыш<p>
-                    <div class="winorlose"></div>
-                </div>
-                <div class="child-nvuti-grid-6">
-                    <p id="min-sums">0 - 499999</p>
-                    <button class="nvuti-min-btn">Меньше</button>
-                </div>
-                <div class="child-nvuti-grid-7">
-                    <p id="max-sums">500000 - 999999</p>
-                    <button class="nvuti-max-btn">Больше</button>
-                </div>
-                
+<div style="font-size: 4vh;">Мини-игры</div>
+
+<div class="game-container">
+    <div class="nvuti-game">
+        <div style="font-size: 3vh;">NVUTI</div>
+        <div class="parent-nvuti-grid">
+            <div class="child-nvuti-grid-1">
+                <p style="text-align: left; margin-left: 2vw;">Сумма</p>
+                <input type="number" placeholder="10" id="nvuti-input-sum" min="10">
+                <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px;">
+            </div>
+            <div class="child-nvuti-grid-2">
+                <button class="sum-up nvuti-buttons">Удвоить</button>
+                <button class="sum-half nvuti-buttons">Половина</button><br>
+                <button class="sum-max nvuti-buttons">Макс</button>
+                <button class="sum-min nvuti-buttons">Мин</button>
+            </div>
+            <div class="child-nvuti-grid-3">
+                <p style="text-align: left; margin-left: 2vw;">Процент</p>
+                <input type="number" placeholder="50" id="nvuti-input-procent" min="1" max="100">
+                <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px;">
+            </div>
+            <div class="child-nvuti-grid-4">
+                <button class="procent-up nvuti-buttons">Удвоить</button>
+                <button class="procent-half nvuti-buttons">Половина</button><br>
+                <button class="procent-max nvuti-buttons">Макс</button>
+                <button class="procent-min nvuti-buttons">Мин</button>
+            </div>
+            <div class="child-nvuti-grid-5">
+                <p id="possible-gain">0.00</p>
+                <p class="possible-gain-text">Возможный выигрыш</p>
+                <div class="winorlose"></div>
+            </div>
+            <div class="child-nvuti-grid-6">
+                <p id="min-sums">0 - 499999</p>
+                <button class="nvuti-min-btn">Меньше</button>
+            </div>
+            <div class="child-nvuti-grid-7">
+                <p id="max-sums">500000 - 999999</p>
+                <button class="nvuti-max-btn">Больше</button>
             </div>
         </div>
-        <div class="roulette">q</div>
-        <div class="nvuti-game">q</div>
-        <div class="roulette">q</div>
+    </div>
+
+    <div class="roulette">
+                <div class="roulette-title">
+                <div style="font-size: 3vh; font-weight:lighter;">Рулетка</div>
+                </div>
+        <div class="roulette-container">
+            <!-- Первая секция - инпут -->
+            <div class="roulette-input">
+                <input type="number" id="bet" placeholder="ставка" class="roulete-input"/>
+
+            </div>
+
+            <!-- Вторая секция - колесо -->
+            <div class="roulette-wheel-container">
+                <div id="wheel-container">
+                    <canvas id="roulette-wheel" width="200" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Третья секция - кнопки -->
+            <div class="roulette-buttons">
+                <button id="bet-black" class="button-wheel" style="background-color:black; color:snow">Поставить на черное</button>
+                <button id="bet-red" class="button-wheel" style="background-color:red; color:snow">Поставить на красное</button>
+                <button id="bet-green" class="button-wheel">Поставить на зеленое</button>
+            </div>
+
+            <!-- Четвертая секция - результат -->
+            <div class="roulette-result">
+                <div id="result">
+                    <p>Результат: <span id="result-number">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Второй контейнер с дополнительными играми -->
+<div class="second-game-container">
+    <div class="one-more-game">a</div>
+    <div class="another-game">b</div>
+</div>
+
         `;
         body.appendChild(modal)
     }
@@ -1434,8 +1560,11 @@ nvutiMaxBtn.addEventListener(`click`, () => {
             } else {
                 balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
             };
-        
-        } else { console.error(`Слил`) }
+                    document.querySelector('.winorlose').innerHTML = `<div class="nvuti-win">Вы выиграли : ${gain.toFixed(2)} рублей!</div>`
+        } else { 
+            console.error(`Слил`) 
+                        document.querySelector('.winorlose').innerHTML = `<div class="nvuti-lose">Вы проиграли : ${nvutiInputSum.value} рублей!</div>`
+        }
     } else {
         console.warn(`proebalsya`)
     }
@@ -1468,7 +1597,141 @@ nvutiMinBtn.addEventListener(`click`, () => {
     }
 })
 
+const canvas = document.getElementById('roulette-wheel');
+const ctx = canvas.getContext('2d');
+const betInput = document.getElementById('bet');
+const betBlackBtn = document.getElementById('bet-black');
+const betRedBtn = document.getElementById('bet-red');
+const betGreenBtn = document.getElementById('bet-green');
+const resultNumber = document.getElementById('result-number');
 
+// Числа и их цвета
+const numbers = [
+    0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
+];
+const colors = {
+    black: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35],
+    red: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36],
+    green: [0]
+};
+
+let currentBet = null;
+let currentAmount = 0;
+
+// Рисуем колесо рулетки
+function drawWheel() {
+    const wheelRadius = canvas.width / 2;
+    const sectionAngle = 2 * Math.PI / numbers.length;
+
+    numbers.forEach((num, i) => {
+        const startAngle = sectionAngle * i;
+        const endAngle = sectionAngle * (i + 1);
+        const isBlack = colors.black.includes(num);
+        const isRed = colors.red.includes(num);
+        const isGreen = colors.green.includes(num);
+
+        ctx.beginPath();
+        ctx.arc(wheelRadius, wheelRadius, wheelRadius, startAngle, endAngle);
+        ctx.lineTo(wheelRadius, wheelRadius);
+
+        if (isBlack) {
+            ctx.fillStyle = 'black';
+        } else if (isRed) {
+            ctx.fillStyle = 'red';
+        } else if (isGreen) {
+            ctx.fillStyle = 'green';
+        }
+
+        ctx.fill();
+        ctx.stroke();
+    });
+}
+
+// Функция для вращения колеса
+function spinWheel() {
+    const rotations = Math.floor(Math.random() * 3) + 4; // От 4 до 6 полных оборотов
+    const randomIndex = Math.floor(Math.random() * numbers.length); // Случайное число
+    const randomNumber = numbers[randomIndex];
+    const degreesPerSection = 360 / numbers.length;
+
+    let rotationDegree = 0;
+    let totalRotation = rotations * 360 + (randomIndex * degreesPerSection); // Стартовая позиция для вращения
+
+    const spinInterval = setInterval(() => {
+        rotationDegree += 5; // Увеличиваем угол на 5 градусов
+        canvas.style.transform = `rotate(${rotationDegree}deg)`; // Прокрутка канваса
+
+        if (rotationDegree >= totalRotation) {
+            clearInterval(spinInterval); // Останавливаем вращение
+
+            // Показываем результат
+            resultNumber.textContent = `число: ${randomNumber}, цвет: ${currentBet}`;
+            checkWin(randomNumber);
+        }
+    }, 10); // Частота обновления анимации (10 миллисекунд)
+}
+
+// Проверка ставки
+function checkWin(number) {
+    const betInputValue = betInput.value.trim();
+    currentAmount = parseInt(betInputValue); // Преобразуем значение ставки в число
+    if (currentBet === 'black' && colors.black.includes(number)) {
+        balance += currentAmount * 1.4860;
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        }
+    } else if (currentBet === 'red' && colors.red.includes(number)) {
+        balance += currentAmount * 1.4860;
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        }
+    } else if (currentBet === 'green' && colors.green.includes(number)) {
+        balance += currentAmount * 97.30;
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        }
+    } else {
+        resultNumber.textContent = `вы проиграли`;
+    }
+}
+
+function handleBet(color) {
+    // Получаем значение ставки из инпута
+    const betInputValue = betInput.value.trim();
+    resultNumber.textContent = ``;
+    // Проверяем, что в инпуте есть корректное значение (число больше 0)
+    if (betInputValue && !isNaN(betInputValue) && parseInt(betInputValue) > 0 && parseInt(betInputValue) <= balance) {
+        currentBet = color;  // Устанавливаем цвет ставки (черное, красное, зеленое)
+        currentAmount = parseInt(betInputValue); // Преобразуем значение ставки в число
+        spinWheel(); // Запускаем колесо
+
+        balance -= currentAmount; // Уменьшаем баланс на сумму ставки
+        
+        // Обновляем отображение баланса в зависимости от темы
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        }
+    } else {
+        resultNumber.textContent = 'Пожалуйста, введите корректную ставку.';
+    }
+}
+
+// Обработчики событий для каждой из кнопок
+betBlackBtn.addEventListener('click', () => handleBet('black'));
+betRedBtn.addEventListener('click', () => handleBet('red'));
+betGreenBtn.addEventListener('click', () => handleBet('green'));
+
+
+// Инициализация
+drawWheel();
 
 
 
@@ -1490,11 +1753,13 @@ nvutiMinBtn.addEventListener(`click`, () => {
     const closeModal = () => {
         modal.remove();
         document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+        document.querySelector('.theme-switcher').style.display = 'inline-flex';
     };
 
     const handleEscapeKey = (event) => {
         if (event.key === 'Escape') {
             closeModal();
+
         }
     };
 

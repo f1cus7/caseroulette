@@ -599,6 +599,20 @@ hr.light-theme {
   height: 93vh;
   margin-top: 7vh;
   border-top: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрируем все содержимое по горизонтали */
+
+}
+
+.modalMinigames-black {
+  width: 100vw;
+  height: 93vh;
+  margin-top: 7vh;
+  border-top: 1px solid #d34baf;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрируем все содержимое по горизонтали */
 }
 
 .nvuti-game {
@@ -606,8 +620,8 @@ hr.light-theme {
   width: 40vw;
   height: 38vh;
   border: 2px solid grey;
-  display: inline-block;
-  margin-right: 10vw;
+  display: block;
+  margin-right: 1vw;
   border-radius: 5px;
 }
 
@@ -706,14 +720,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
 
-
-
 .roulette {
   margin-top: 3vh;
   width: 40vw;
   height: 38vh;
-  border: 1px solid black;
-  display: inline-block;
+  border: 2px solid grey;
+  display: block;
+  border-radius: 5px
 }
 
 .nvuti-win {
@@ -721,7 +734,7 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 5vh;
   justify-content: center;
   color: snow;
-  font-size: 2.3vh;
+  font-size: 2.5vh;
   border-radius: 10px;
   padding-top: 0.5vh;
   margin: 2vh;
@@ -736,4 +749,132 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 10px;
   padding-top: 0.5vh;
   margin: 2vh;
+}
+
+.btn-color {
+  background-color: #d34baf;
+}
+
+.btn-color:hover {
+  background-color: #bb409a;
+}
+
+.roulette-container {
+  display: grid;
+  grid-template-columns: 10vw 20vw 10vw;
+  grid-template-rows: 25vh 9vh;
+  gap: 0px;
+  width: 80vw; /* Ширина контейнера */
+  height: 40vh; /* Высота контейнера */
+  margin: auto; /* Центрируем контейнер */
+}
+
+.roulette-title {
+  text-align: center;
+  font-size: 3vh;
+  font-weight: bold;
+}
+
+
+#wheel-container {
+  margin: 20px auto;
+  position: relative;
+}
+
+
+.roulette-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+}
+
+.roulette-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+}
+
+.roulette-wheel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.roulette-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#wheel-container {
+  margin: 20px auto;
+  position: relative;
+}
+
+#roulette-wheel {
+  border-radius: 50%;
+  background-color: gold;
+  border: 5px solid gold;
+}
+
+.button-wheel {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 7vw;
+}
+
+.button-wheel:hover {
+  background-color: #45a049;
+}
+
+.bet {
+  padding: 10px;
+  margin-top: 0px;
+  font-size: 16px;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
+
+.game-container {
+  display: flex;
+  gap: 2vw; /* Отступ между блоками */
+
+}
+
+.second-game-container {
+  display: flex;
+  gap: 2vw;
+  width: 80vw;
+  margin-top: 20px;
+}
+
+.nvuti-game, .roulette, .one-more-game, .another-game {
+  height: 38vh;
+  width: 40vw;
+}
+
+.roulete-input {
+  width: 7vw;
+  height: 7vh;
+  border: 2px solid #3399ff;
+  border-radius: 10px ;
+  font-size: 2vh;
+  padding: 1vh;
 }
