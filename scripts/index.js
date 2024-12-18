@@ -25,6 +25,7 @@ const inventoryNode = document.getElementById('inventory');
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 const craftNode = document.getElementById('craft');
+const MiniGamesNode = document.getElementById('mini-games');
 
 
 // масив кейса 1 
@@ -376,7 +377,7 @@ const normalizedChances = {
 
 // фича
 balanceNode.addEventListener(`click`, () => {
-    balance++;
+    balance += 5;
         if (themeToggle.checked) {
         balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
@@ -463,7 +464,7 @@ const getRandomSkin = (arr) => {
 
 function openCase(caseArray, caseNumber) {
     // Проверяем, хватает ли баланса
-    if (balance < 250) {
+    if (balance < 500) {
         alert('Недостаточно средств для открытия кейса.');
         return;
     }
@@ -476,7 +477,7 @@ function openCase(caseArray, caseNumber) {
     }
 
     // Списываем стоимость кейса
-    balance -= 250;
+    balance -= 500;
     if (themeToggle.checked) {
         balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
@@ -501,7 +502,7 @@ function openCase(caseArray, caseNumber) {
 }
 
 function openCase5x(caseArray, caseNumber) {
-    if (balance < 1250) {
+    if (balance < 2500) {
         alert('Недостаточно средств для открытия кейса.');
         return;
     }
@@ -513,7 +514,7 @@ function openCase5x(caseArray, caseNumber) {
         staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
     }
 
-    balance -= 1250;
+    balance -= 2500;
     if (themeToggle.checked) {
         balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
@@ -554,7 +555,7 @@ function openCase5x(caseArray, caseNumber) {
 
 
 function openCase10x(caseArray, caseNumber) {
-    if (balance < 2500) {
+    if (balance < 5000) {
         alert('Недостаточно средств для открытия кейса.');
         return;
     }
@@ -565,7 +566,7 @@ function openCase10x(caseArray, caseNumber) {
     } else {
         staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
     }
-    balance -= 2500;
+    balance -= 5000;
     if (themeToggle.checked) {
         balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
     } else {
@@ -1031,11 +1032,213 @@ inventoryNode.addEventListener('click', () => {
 });
 
 
-const craftModal = (skin) => {
-    // Удаляем старое модальное окно, если оно существует
+// const craftModal = (skin) => {
+//     // Удаляем старое модальное окно, если оно существует
+//     const existingModal = document.querySelector('.modal');
+//     if (existingModal) existingModal.remove();
+
+//     // Создаем новое модальное окно
+//     const modal = document.createElement('div');
+
+//     if (themeToggle.checked) {
+//         modal.className = 'modalBlack craft-black';
+//         modal.style.backgroundColor = '#111';
+
+//         modal.innerHTML = `
+//             <div>
+//                 <div class="craft-grid-parent">
+//                     <div class="craft-grid-child" id="craft-grid-child-1"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-2"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-3"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-4"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-5"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-6"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-7"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-8"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-9"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-10"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-11"><div class="craft-text">Крафт</div></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-12"><img src="images/right-black.svg" class=right-black-img><br><button class="btn-opn dark-theme" id="start-craft">Жми!</button></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-13"></div>
+//                     <div class="craft-grid-child" id="craft-grid-child-14"><div class="craft-text"></div></div>
+//                 </div>
+//             </div>
+//         `;
+
+//         // Добавляем модальное окно в DOM
+//         document.body.appendChild(modal);
+
+//         // Находим контейнер после добавления модального окна в DOM
+//         const container = document.getElementById('craft-grid-child-1');
+
+//         let inventoryIndexUsed = [];
+
+//         // Перебираем inventory, чтобы добавить изображения и цены
+//         inventory.forEach((item, index) => {
+//             // Создаем контейнер для каждого элемента
+//             const itemDiv = document.createElement('div');
+    
+//             // Присваиваем уникальный id каждому div
+//             itemDiv.id = `item-${index}`;  // Используем индекс для уникального id
+//             itemDiv.className = `inventory-items-for-craft`
+
+//             // Создаем элементы для изображения и цены
+//             const img = document.createElement('img');
+//             const price = document.createElement('p');
+    
+//             // Устанавливаем данные для изображения и цены
+//             img.src = item.image;  // Используем свойство image из объекта
+//             price.textContent = `Цена: ${item.price} ₽`;  // Устанавливаем цену как текст
+    
+//             img.alt = item.name;    // Используем свойство name для alt
+//             img.style.width = '70%';
+//             img.style.margin = '10px auto';
+//             price.style.margin = '10px auto';
+
+//             // Добавляем логику для изменения цвета границы в зависимости от rare
+//             let borderColor = 'gray';  // Значение по умолчанию для common или неизвестных rare
+    
+//             // Логика для установки цвета границы в зависимости от редкости (rare)
+//             if (item.rare === 'arm') {
+//                 borderColor = 'rgb(81, 106, 242)';  // Общая редкость
+//             } else if (item.rare === 'zap') {
+//                 borderColor = 'rgb(127, 80, 246)';  // Необычная редкость
+//             } else if (item.rare === 'zas') {
+//                 borderColor = 'rgb(193, 66, 222)';   // Редкая
+//             } else if (item.rare === 'tai') {
+//                 borderColor = 'rgb(216, 87, 82)'; // Эпическая
+//             } else if (item.rare === 'knife') {
+//                 borderColor = 'rgb(216, 87, 82)'; // Легендарная
+//             } else {
+//                 borderColor = 'black';  // По умолчанию для нераспознанных значений
+//             }
+
+//             // Устанавливаем стиль для контейнера, добавляем border
+//             itemDiv.style.border = `2px solid ${borderColor}`;
+//             itemDiv.style.borderRadius = '8px';  // Опционально, чтобы границы были скругленные
+//             itemDiv.style.margin = `0vh`
+//             itemDiv.style.width = `8vw`
+//             itemDiv.style.height = `8vw`
+
+//             // Добавляем изображение и цену в контейнер div
+//             itemDiv.appendChild(img);
+//             itemDiv.appendChild(price);
+    
+//             // Добавляем весь div в основной контейнер
+//             container.appendChild(itemDiv);
+//         });
+
+//         let currentContainerIndex = 0;
+
+//         const items = document.querySelectorAll('.inventory-items-for-craft');
+
+//         console.log(`Найдено ${items.length} элементов.`);
+
+//         let totalSum = 0;
+
+//         // Добавляем обработчик клика для каждого элемента
+//         items.forEach(item => {
+//             item.addEventListener('click', () => {
+//                 const container1 = document.getElementById('craft-grid-child-1');
+
+//                 const targetContainers = [
+//                     document.getElementById('craft-grid-child-2'),
+//                     document.getElementById('craft-grid-child-3'),
+//                     document.getElementById('craft-grid-child-4'),
+//                     document.getElementById('craft-grid-child-5'),
+//                     document.getElementById('craft-grid-child-6'),
+//                     document.getElementById('craft-grid-child-7'),
+//                     document.getElementById('craft-grid-child-8'),
+//                     document.getElementById('craft-grid-child-9'),
+//                     document.getElementById('craft-grid-child-10')
+//                 ];
+
+//                 // Если текущий контейнер не пуст, перемещаем элемент в следующий контейнер
+//                 if (currentContainerIndex < targetContainers.length) {
+//                     const selectedContainer = targetContainers[currentContainerIndex];
+
+//                     // Клонируем элемент, чтобы сохранить оригинальный в первом контейнере
+//                     const itemClone = item.cloneNode(true);
+
+//                     // Добавляем клон в выбранный контейнер
+//                     selectedContainer.appendChild(itemClone);
+
+//                     // Удаляем оригинальный элемент из первого контейнера
+//                     container1.removeChild(item);
+
+//                     // Увеличиваем индекс для следующего контейнера
+//                     currentContainerIndex++;
+
+
+//                     const price = parseFloat(item.querySelector('p').textContent.replace('Цена: ', '').replace(' ₽', ''));  // Получаем цену скина
+//                     totalSum += Math.round(price);  // Добавляем цену скина к общей сумме
+
+
+//                     // Логирование
+//                     console.log(`Элемент с id ${item.id} перемещён в контейнер ${selectedContainer.id}`);
+//                     if (currentContainerIndex === 9) {
+//                         document.getElementById("craft-grid-child-11").innerHTML= `<div class="craft-text" style="font-size: 1.8vh">Общая сумма скинов: ${totalSum}<br>
+//                         Может выпать скин на сумму от: ${totalSum / 2} до ${totalSum * 1.5}</div>`
+//                     } else {
+                        
+//                     }
+//                 } else {
+//                     console.log('Все контейнеры заняты, элемент не может быть перемещён.');
+//                 }
+                
+//     document.getElementById('start-craft').addEventListener(`click`, () => {
+//         if (currentContainerIndex < 9) {
+//             alert (`Осталось добавить ${9 - currentContainerIndex} скинов!`)
+//         } else {
+//             const morsum = Math.round(getRandomNumber(totalSum/2, totalSum * 1.5))
+//             document.getElementById('craft-grid-child-13').innerHTML = `<img src="images/craft-skin.png" class="img-craft-drop">`;
+//             document.getElementById('craft-grid-child-14').innerHTML = `<div class="craft-text" style="font-size: 1.8vh; margin-top: 5vh">Его цена: ${morsum}</div>`;
+//             inventory.push({name: 'morgen', rare: 'knife', price: morsum, image: `images/craft-skin.png`});
+//         }
+//     })
+
+//             });
+
+//         });
+//     } else {
+//         modal.className = 'modal craft-white';
+//         modal.style.backgroundColor = '#fff';
+
+//         // Место для контента, если тема не включена (например, если themeToggle.checked === false)
+//         modal.innerHTML = `
+//             <p>Контент для светлой темы</p>
+//         `;
+//         document.body.appendChild(modal);
+//     }
+
+
+//     console.log(skin);
+
+//     document.body.appendChild(modal);
+
+//     const closeModal = () => {
+//         modal.remove();
+//         document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+//     };
+
+//     const handleEscapeKey = (event) => {
+//         if (event.key === 'Escape') {
+//             closeModal();
+//         }
+//     };
+
+//     document.addEventListener('keydown', handleEscapeKey);
+
+//     // modal.querySelector('.close-modal').addEventListener('click', closeModal);
+// }
+// craftNode.addEventListener('click', () => craftModal(inventory));
+
+
+// Добавляем обработчик события на переключатель
+
+MiniGamesNode.addEventListener(`click`, () => {
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
-
     // Создаем новое модальное окно
     const modal = document.createElement('div');
 
@@ -1043,184 +1246,246 @@ const craftModal = (skin) => {
         modal.className = 'modalBlack craft-black';
         modal.style.backgroundColor = '#111';
 
-        modal.innerHTML = `
-            <div>
-                <div class="craft-grid-parent">
-                    <div class="craft-grid-child" id="craft-grid-child-1"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-2"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-3"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-4"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-5"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-6"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-7"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-8"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-9"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-10"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-11"><div class="craft-text">Крафт</div></div>
-                    <div class="craft-grid-child" id="craft-grid-child-12"><img src="images/right-black.svg" class=right-black-img><br><button class="btn-opn dark-theme" id="start-craft">Жми!</button></div>
-                    <div class="craft-grid-child" id="craft-grid-child-13"></div>
-                    <div class="craft-grid-child" id="craft-grid-child-14"><div class="craft-text"></div></div>
-                </div>
-            </div>
-        `;
-
-
-
-        
-
-        // Добавляем модальное окно в DOM
-        document.body.appendChild(modal);
-
-        // Находим контейнер после добавления модального окна в DOM
-        const container = document.getElementById('craft-grid-child-1');
-
-        // Перебираем inventory, чтобы добавить изображения и цены
-        inventory.forEach((item, index) => {
-            // Создаем контейнер для каждого элемента
-            const itemDiv = document.createElement('div');
-    
-            // Присваиваем уникальный id каждому div
-            itemDiv.id = `item-${index}`;  // Используем индекс для уникального id
-            itemDiv.className = `inventory-items-for-craft`
-    
-            // Создаем элементы для изображения и цены
-            const img = document.createElement('img');
-            const price = document.createElement('p');
-    
-            // Устанавливаем данные для изображения и цены
-            img.src = item.image;  // Используем свойство image из объекта
-            price.textContent = `Цена: ${item.price} ₽`;  // Устанавливаем цену как текст
-    
-            img.alt = item.name;    // Используем свойство name для alt
-            img.style.width = '70%';
-            img.style.margin = '10px auto';
-            price.style.margin = '10px auto';
-
-            // Добавляем логику для изменения цвета границы в зависимости от rare
-            let borderColor = 'gray';  // Значение по умолчанию для common или неизвестных rare
-    
-            // Логика для установки цвета границы в зависимости от редкости (rare)
-            if (item.rare === 'arm') {
-                borderColor = 'rgb(81, 106, 242)';  // Общая редкость
-            } else if (item.rare === 'zap') {
-                borderColor = 'rgb(127, 80, 246)';  // Необычная редкость
-            } else if (item.rare === 'zas') {
-                borderColor = 'rgb(193, 66, 222)';   // Редкая
-            } else if (item.rare === 'tai') {
-                borderColor = 'rgb(216, 87, 82)'; // Эпическая
-            } else if (item.rare === 'knife') {
-                borderColor = 'rgb(216, 87, 82)'; // Легендарная
-            } else {
-                borderColor = 'black';  // По умолчанию для нераспознанных значений
-            }
-
-            // Устанавливаем стиль для контейнера, добавляем border
-            itemDiv.style.border = `2px solid ${borderColor}`;
-            itemDiv.style.borderRadius = '8px';  // Опционально, чтобы границы были скругленные
-            itemDiv.style.margin = `0vh`
-            itemDiv.style.width = `8vw`
-            itemDiv.style.height = `8vw`
-
-            // Добавляем изображение и цену в контейнер div
-            itemDiv.appendChild(img);
-            itemDiv.appendChild(price);
-    
-            // Добавляем весь div в основной контейнер
-            container.appendChild(itemDiv);
-        });
-
-        // Далее добавим обработчик кликов
-        let currentContainerIndex = 0;  // Начинаем с второго контейнера (index 1 для 'craft-grid-child-2')
-
-        // Находим все элементы с классом 'inventory-items-for-craft'
-        const items = document.querySelectorAll('.inventory-items-for-craft');
-
-        // Проверка: если элементы вообще найдены
-        console.log(`Найдено ${items.length} элементов.`);
-
-        let totalSum = 0;
-
-        // Добавляем обработчик клика для каждого элемента
-        items.forEach(item => {
-            item.addEventListener('click', () => {
-                // Находим родительский элемент, из которого мы перемещаем скин
-                const container1 = document.getElementById('craft-grid-child-1');
-
-                // Находим контейнеры для перемещения элементов (например, craft-grid-child-2, craft-grid-child-3 и т.д.)
-                const targetContainers = [
-                    document.getElementById('craft-grid-child-2'),
-                    document.getElementById('craft-grid-child-3'),
-                    document.getElementById('craft-grid-child-4'),
-                    document.getElementById('craft-grid-child-5'),
-                    document.getElementById('craft-grid-child-6'),
-                    document.getElementById('craft-grid-child-7'),
-                    document.getElementById('craft-grid-child-8'),
-                    document.getElementById('craft-grid-child-9'),
-                    document.getElementById('craft-grid-child-10')
-                ];
-
-                // Если текущий контейнер не пуст, перемещаем элемент в следующий контейнер
-                if (currentContainerIndex < targetContainers.length) {
-                    const selectedContainer = targetContainers[currentContainerIndex];
-
-                    // Клонируем элемент, чтобы сохранить оригинальный в первом контейнере
-                    const itemClone = item.cloneNode(true);
-
-                    // Добавляем клон в выбранный контейнер
-                    selectedContainer.appendChild(itemClone);
-
-                    // Удаляем оригинальный элемент из первого контейнера
-                    container1.removeChild(item);
-
-                    // Увеличиваем индекс для следующего контейнера
-                    currentContainerIndex++;
-
-
-                    const price = parseFloat(item.querySelector('p').textContent.replace('Цена: ', '').replace(' ₽', ''));  // Получаем цену скина
-                    totalSum += Math.round(price);  // Добавляем цену скина к общей сумме
-
-
-                    // Логирование
-                    console.log(`Элемент с id ${item.id} перемещён в контейнер ${selectedContainer.id}`);
-                    if (currentContainerIndex === 9) {
-                        document.getElementById("craft-grid-child-11").innerHTML= `<div class="craft-text" style="font-size: 1.8vh">Общая сумма скинов: ${totalSum}<br>
-                        Может выпать скин на сумму от: ${totalSum / 2} до ${totalSum * 1.5}</div>`
-                    } else {
-                        
-                    }
-                } else {
-                    console.log('Все контейнеры заняты, элемент не может быть перемещён.');
-                }
-                
-    document.getElementById('start-craft').addEventListener(`click`, () => {
-        if (currentContainerIndex < 9) {
-            alert (`Осталось добавить ${9 - currentContainerIndex} скинов!`)
-        } else {
-            const morsum = Math.round(getRandomNumber(totalSum/2, totalSum * 1.5))
-            document.getElementById('craft-grid-child-13').innerHTML = `<img src="images/craft-skin.png" class="img-craft-drop">`;
-            document.getElementById('craft-grid-child-14').innerHTML = `<div class="craft-text" style="font-size: 1.8vh; margin-top: 5vh">Его цена: ${morsum}</div>`;
-            inventory.push({name: 'morgen', rare: 'knife', price: morsum, image: `images/craft-skin.png`});
-        }
-    })
-
-            });
-
-        });
+        modal.innerHTML = `<div>privet<div>`;
     } else {
-        modal.className = 'modal craft-white';
-        modal.style.backgroundColor = '#fff';
+        modal.className = 'modal modalMinigames ';
+        modal.style.backgroundColor = 'white';
 
-        // Место для контента, если тема не включена (например, если themeToggle.checked === false)
+
+
         modal.innerHTML = `
-            <p>Контент для светлой темы</p>
+        <div style="font-size: 4vh; display:flex; justify-content:center">Мини-игры</div>
+        <div class="nvuti-game">
+            <div style="font-size: 3vh">NVUTI</div>
+            <div class="parent-nvuti-grid">
+                <div class="child-nvuti-grid-1">
+                    <p style="text-align:left; margin-left: 2vw">Сумма</p>
+                    <input type="number" placeholder="10" id="nvuti-input-sum" min="10">
+                    <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px">
+                </div>
+                <div class="child-nvuti-grid-2">
+                    <button class="sum-up nvuti-buttons">Удвоить</button>
+                    <button class="sum-half nvuti-buttons">Половина</button><br>
+                    <button class="sum-max nvuti-buttons">Макс</button>
+                    <button class="sum-min nvuti-buttons">Мин</button>
+                </div>
+                <div class="child-nvuti-grid-3">
+                    <p style="text-align:left; margin-left: 2vw">Процент</p>
+                    <input type="number" placeholder="50" id="nvuti-input-procent" min="1" max="100">
+                    <hr style="border-color: grey; width: 70%; margin: 1vh auto 0px">
+                </div>
+                <div class="child-nvuti-grid-4">
+                    <button class="procent-up nvuti-buttons">Удвоить</button>
+                    <button class="procent-half nvuti-buttons">Половина</button><br>
+                    <button class="procent-max nvuti-buttons">Макс</button>
+                    <button class="procent-min nvuti-buttons">Мин</button>
+                </div>
+                <div class="child-nvuti-grid-5">
+                    <p id=possible-gain>0.00</p>
+                    <p class=possible-gain-text>Возможный выигрыш<p>
+                    <div class="winorlose"></div>
+                </div>
+                <div class="child-nvuti-grid-6">
+                    <p id="min-sums">0 - 499999</p>
+                    <button class="nvuti-min-btn">Меньше</button>
+                </div>
+                <div class="child-nvuti-grid-7">
+                    <p id="max-sums">500000 - 999999</p>
+                    <button class="nvuti-max-btn">Больше</button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="roulette">q</div>
+        <div class="nvuti-game">q</div>
+        <div class="roulette">q</div>
         `;
-        document.body.appendChild(modal);
+        body.appendChild(modal)
     }
 
-
-    console.log(skin);
-
     document.body.appendChild(modal);
+
+    const nvutiInputSum = document.getElementById('nvuti-input-sum');
+    const nvutiInputprocent = document.getElementById('nvuti-input-procent');
+    const possibleGain = document.getElementById('possible-gain');
+    const minSums = document.getElementById('min-sums');
+    const maxSums = document.getElementById('max-sums');
+    const sumUp = document.querySelector('.sum-up');
+    const procentUp = document.querySelector('.procent-up');
+    const sumHalf = document.querySelector('.sum-half');
+    const procentHalf = document.querySelector('.procent-half');
+    const sumMax = document.querySelector('.sum-max');
+    const procentMax = document.querySelector('.procent-max');
+    const sumMin = document.querySelector('.sum-min');
+    const procentMin = document.querySelector('.procent-min');
+    const nvutiMinBtn = document.querySelector('.nvuti-min-btn');
+    const nvutiMaxBtn = document.querySelector('.nvuti-max-btn');
+
+// Основная функция для обновления значений
+
+    let maxProcent = 0;
+    let minProcent = 0;
+    let gain = 0;
+
+const updateValues = () => {
+    const percent = parseFloat(nvutiInputprocent.value);
+    const sum = parseFloat(nvutiInputSum.value);
+
+    if (!isNaN(percent) && !isNaN(sum)) {
+        const totalValue = 999999;
+
+        // Расчет минимального и максимального диапазона
+        minProcent = (totalValue * percent) / 100;
+        maxProcent = totalValue - minProcent;
+        minSums.innerHTML = `0 - ${Math.floor(minProcent)}`;
+        maxSums.innerHTML = `${Math.ceil(maxProcent)} - 999999`;
+
+        // Вычисление возможной выгоды
+        gain = (sum / percent) * 100
+
+        possibleGain.innerHTML = `${gain.toFixed(2)}`;
+    }
+};
+
+// Слушатели событий для ввода процентов и суммы
+nvutiInputprocent.addEventListener('input', updateValues);
+nvutiInputSum.addEventListener('input', updateValues);
+
+// Умножение на 2
+sumUp.addEventListener('click', () => {
+    let currentSum = parseFloat(nvutiInputSum.value);
+    if (!isNaN(currentSum)) {
+        currentSum *= 2;
+        nvutiInputSum.value = currentSum.toFixed(2); // Обновление значения
+        updateValues();
+    }
+});
+
+// Деление на 2
+sumHalf.addEventListener('click', () => {
+    let currentSum = parseFloat(nvutiInputSum.value);
+    if (!isNaN(currentSum)) {
+        currentSum /= 2;
+        nvutiInputSum.value = currentSum.toFixed(2); // Обновление значения
+        updateValues();
+    }
+});
+
+// Установка максимальной суммы (для примера, balance может быть определен где-то еще в коде)
+sumMax.addEventListener('click', () => {
+    nvutiInputSum.value = balance.toFixed(2);
+    updateValues();
+});
+
+// Установка минимальной суммы
+sumMin.addEventListener('click', () => {
+    nvutiInputSum.value = '10.00'; // Устанавливаем минимальную сумму в 10.00
+    updateValues();
+});
+
+// Умножение на 2
+procentUp.addEventListener('click', () => {
+    let currentProcent = parseFloat(nvutiInputprocent.value);
+    if (!isNaN(currentProcent)) {
+        currentProcent *= 2;
+        if (currentProcent > 100) {
+            currentProcent = 100;
+        }
+        nvutiInputprocent.value = currentProcent.toFixed(2); // Обновление значения
+        updateValues();
+    }
+});
+
+// Деление на 2
+procentHalf.addEventListener('click', () => {
+    let currentProcent = parseFloat(nvutiInputprocent.value);
+    if (!isNaN(currentProcent)) {
+        currentProcent /= 2;
+        nvutiInputprocent.value = currentProcent.toFixed(2); // Обновление значения
+        updateValues();
+    }
+});
+
+procentMax.addEventListener('click', () => {
+    nvutiInputprocent.value = 100;
+    updateValues();
+});
+
+// Установка минимальной суммы
+procentMin.addEventListener('click', () => {
+    nvutiInputprocent.value = 1;
+    updateValues();
+});
+    
+nvutiMaxBtn.addEventListener(`click`, () => {
+    if (nvutiInputSum.value >= 10 && nvutiInputprocent.value >= 1 && nvutiInputprocent.value <= 100 && nvutiInputSum.value <= balance) {
+        let randNum = getRandomNumber(0, 999999);
+        balance -= nvutiInputSum.value;
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        };
+        if (randNum >= maxProcent) {
+            console.log('Поднял')
+            balance += gain
+            if (themeToggle.checked) {
+                balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+            } else {
+                balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+            };
+        
+        } else { console.error(`Слил`) }
+    } else {
+        console.warn(`proebalsya`)
+    }
+})
+
+nvutiMinBtn.addEventListener(`click`, () => {
+    if (nvutiInputSum.value >= 10 && nvutiInputprocent.value >= 1 && nvutiInputprocent.value <= 100 && nvutiInputSum.value <= balance) {
+        let randNum = getRandomNumber(0, 999999);
+        balance -= nvutiInputSum.value;
+        if (themeToggle.checked) {
+            balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        } else {
+            balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+        };
+        if (randNum <= minProcent) {
+            console.log('Поднял')
+            balance += gain
+            if (themeToggle.checked) {
+                balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+            } else {
+                balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+            };
+            document.querySelector('.winorlose').innerHTML = `<div class="nvuti-win">Вы выиграли : ${gain.toFixed(2)} рублей!</div>`
+        } else {
+            console.error(`Слил`) 
+            document.querySelector('.winorlose').innerHTML = `<div class="nvuti-lose">Вы проиграли : ${nvutiInputSum.value} рублей!</div>`
+            }
+    } else {
+        console.warn(`proebalsya`)
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const closeModal = () => {
         modal.remove();
@@ -1235,13 +1500,9 @@ const craftModal = (skin) => {
 
     document.addEventListener('keydown', handleEscapeKey);
 
-    // modal.querySelector('.close-modal').addEventListener('click', closeModal);
 }
+);
 
-craftNode.addEventListener('click', () => craftModal(inventory));
-
-
-// Добавляем обработчик события на переключатель
 themeToggle.addEventListener('change', () => {
     const styleId = 'custom-scrollbar'; // Уникальный ID для стилизованного скроллбара
     const style = document.getElementById(styleId); // Проверяем, есть ли уже такой элемент
@@ -1304,6 +1565,8 @@ themeToggle.addEventListener('change', () => {
       document.getElementById('craft').style.color = `snow`
       inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
       <div class="inventory-col-vo">${inventory.length}</div>`;
+      document.getElementById('mini-games').classList.add('dark-theme');
+      document.getElementById('mini-games').innerHTML = `<img src="images/mini-games-black.svg" alt="" style="width: 2vh;"/>Мини-игры`;
     } else {
       body.classList.remove('dark-theme');
       document.querySelector('header').classList.remove('dark-theme');
@@ -1329,5 +1592,7 @@ themeToggle.addEventListener('change', () => {
       document.getElementById('craft').style.color = `#000`
       inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
       <div class="inventory-col-vo">${inventory.length}</div>`;
+      document.getElementById('mini-games').classList.remove('dark-theme');
+      document.getElementById('mini-games').innerHTML = `<img src="images/mini-games.svg" alt="" style="width: 2vh;"/>Мини-игры`;
     }
   });

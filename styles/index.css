@@ -389,8 +389,8 @@ nav {
 
 .slider {
   position: relative;
-  width: 60px;
-  height: 30px;
+  width: 3.1vw;
+  height: 1.6vw;
   background-color: #ccc;
   border-radius: 30px;
   cursor: pointer;
@@ -400,10 +400,10 @@ nav {
 .slider::before {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 22px;
-  height: 22px;
+  top: 0.2vw;
+  left: 0.2vw;
+  width: 1.15vw;
+  height: 1.15vw;
   border-radius: 50%;
   background-color: white;
   transition: transform 0.3s;
@@ -463,11 +463,6 @@ body.dark-theme {
 
 .main-text.dark-theme {
   color: snow;
-}
-
-#inventory.dark-theme {
-  background-color: #121212; /* Темный фон */
-  color: #fff; /* Светлый текст */
 }
 
 nav.dark-theme {
@@ -597,4 +592,148 @@ hr.light-theme {
 .img-craft-drop {
   width: 8.3vw;
   border-radius: 9px;
+}
+
+.modalMinigames {
+  width: 100vw;
+  height: 93vh;
+  margin-top: 7vh;
+  border-top: 1px solid black;
+}
+
+.nvuti-game {
+  margin-top: 3vh;
+  width: 40vw;
+  height: 38vh;
+  border: 2px solid grey;
+  display: inline-block;
+  margin-right: 10vw;
+  border-radius: 5px;
+}
+
+.parent-nvuti-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 10vw);
+  grid-template-rows: repeat( 2, 17vh);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  font-weight: lighter;
+  }
+
+.child-nvuti-grid-1 { grid-area: 1 / 1 / 2 / 2; }
+.child-nvuti-grid-2 { grid-area: 2 / 1 / 3 / 2; }
+.child-nvuti-grid-3 { grid-area: 1 / 2 / 2 / 3; }
+.child-nvuti-grid-4 { grid-area: 2 / 2 / 3 / 3; }
+.child-nvuti-grid-5 { grid-area: 1 / 3 / 2 / 5; }
+.child-nvuti-grid-6 { grid-area: 2 / 3 / 3 / 4; }
+.child-nvuti-grid-7 { grid-area: 2 / 4 / 3 / 5; }
+
+#nvuti-input-sum {
+  border: none;
+  text-align: center;
+  font-size: 3vh;
+  margin-top: 2vh;
+  width: 10vw;
+}
+
+#nvuti-input-procent {
+  border: none;
+  text-align: center;
+  font-size: 3vh;
+  margin-top: 2vh;
+  width: 10vw;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Кнопки спрятаны */
+}
+
+.nvuti-buttons {
+  border: none;
+  background-color: #3399ff;
+  border-radius: 3px;
+  padding: 0.7vh;
+  color: snow;
+  margin: 0.5vh;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nvuti-buttons:hover {
+  background-color: #2b7ed1;
+}
+
+#possible-gain {
+  color: #3399ff;
+  font-weight: bold;
+  font-size: 5vh;
+}
+
+.nvuti-min-btn {
+  border: none;
+  background-color: #333333;
+  border-radius: 3px;
+  padding: 1vh;
+  color: snow;
+  margin: 0.5vh;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 3vh;
+}
+
+.nvuti-min-btn:hover {
+  background-color: #222;
+}
+
+.nvuti-max-btn {
+  border: none;
+  background-color: #333333;
+  border-radius: 3px;
+  padding: 1vh;
+  color: snow;
+  margin: 0.5vh;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 3vh;
+}
+
+.nvuti-max-btn:hover {
+  background-color: #222;
+}
+
+
+
+
+
+
+
+.roulette {
+  margin-top: 3vh;
+  width: 40vw;
+  height: 38vh;
+  border: 1px solid black;
+  display: inline-block;
+}
+
+.nvuti-win {
+  background: linear-gradient(13deg, rgba(0,124,2,1) 0%, rgba(0,255,106,1) 100%);
+  height: 5vh;
+  justify-content: center;
+  color: snow;
+  font-size: 2.3vh;
+  border-radius: 10px;
+  padding-top: 0.5vh;
+  margin: 2vh;
+}
+
+.nvuti-lose {
+  background: linear-gradient(13deg, rgba(189,0,0,1) 0%, rgba(255,115,115,1) 100%);
+  height: 5vh;
+  justify-content: center;
+  color: snow;
+  font-size: 2.5vh;
+  border-radius: 10px;
+  padding-top: 0.5vh;
+  margin: 2vh;
 }
