@@ -662,6 +662,7 @@ hr.light-theme {
   font-size: 3vh;
   margin-top: 2vh;
   width: 10vw;
+  outline: none;
 }
 
 #nvuti-input-procent {
@@ -670,6 +671,7 @@ hr.light-theme {
   font-size: 3vh;
   margin-top: 2vh;
   width: 10vw;
+  outline: none;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -986,7 +988,7 @@ input[type="number"]::-webkit-outer-spin-button {
   transition: 0.2s;
   width: 3vh;
   height: 3vh;
-  margin: 0.27vw;
+  margin: 0.1vw;
 }
 
 
@@ -1014,7 +1016,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #run-onexone, #run-onextwo,#run-onexfive, #run-two {
-  border-right: 1vh solid #c37aff;
+  border-right: 0.5vh solid #c37aff;
   text-align: center;
   padding: 0;
 }

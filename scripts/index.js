@@ -910,7 +910,9 @@ inventoryNode.addEventListener('click', () => {
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
 
-    // Создаем модальное окно
+
+    if (inventory.length > 0) {
+            // Создаем модальное окно
     const modal = document.createElement('div');
     modal.className = themeToggle.checked ? 'inventory-modal-black' : 'inventory-modal';
 
@@ -1089,212 +1091,11 @@ inventoryNode.addEventListener('click', () => {
 
     // Добавляем обработчик нажатия клавиш
     document.addEventListener('keydown', handleEscapeKey);
+    }
+
+
+
 });
-
-
-// const craftModal = (skin) => {
-//     // Удаляем старое модальное окно, если оно существует
-//     const existingModal = document.querySelector('.modal');
-//     if (existingModal) existingModal.remove();
-
-//     // Создаем новое модальное окно
-//     const modal = document.createElement('div');
-
-//     if (themeToggle.checked) {
-//         modal.className = 'modalBlack craft-black';
-//         modal.style.backgroundColor = '#111';
-
-//         modal.innerHTML = `
-//             <div>
-//                 <div class="craft-grid-parent">
-//                     <div class="craft-grid-child" id="craft-grid-child-1"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-2"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-3"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-4"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-5"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-6"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-7"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-8"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-9"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-10"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-11"><div class="craft-text">Крафт</div></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-12"><img src="images/right-black.svg" class=right-black-img><br><button class="btn-opn dark-theme" id="start-craft">Жми!</button></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-13"></div>
-//                     <div class="craft-grid-child" id="craft-grid-child-14"><div class="craft-text"></div></div>
-//                 </div>
-//             </div>
-//         `;
-
-//         // Добавляем модальное окно в DOM
-//         document.body.appendChild(modal);
-
-//         // Находим контейнер после добавления модального окна в DOM
-//         const container = document.getElementById('craft-grid-child-1');
-
-//         let inventoryIndexUsed = [];
-
-//         // Перебираем inventory, чтобы добавить изображения и цены
-//         inventory.forEach((item, index) => {
-//             // Создаем контейнер для каждого элемента
-//             const itemDiv = document.createElement('div');
-    
-//             // Присваиваем уникальный id каждому div
-//             itemDiv.id = `item-${index}`;  // Используем индекс для уникального id
-//             itemDiv.className = `inventory-items-for-craft`
-
-//             // Создаем элементы для изображения и цены
-//             const img = document.createElement('img');
-//             const price = document.createElement('p');
-    
-//             // Устанавливаем данные для изображения и цены
-//             img.src = item.image;  // Используем свойство image из объекта
-//             price.textContent = `Цена: ${item.price} ₽`;  // Устанавливаем цену как текст
-    
-//             img.alt = item.name;    // Используем свойство name для alt
-//             img.style.width = '70%';
-//             img.style.margin = '10px auto';
-//             price.style.margin = '10px auto';
-
-//             // Добавляем логику для изменения цвета границы в зависимости от rare
-//             let borderColor = 'gray';  // Значение по умолчанию для common или неизвестных rare
-    
-//             // Логика для установки цвета границы в зависимости от редкости (rare)
-//             if (item.rare === 'arm') {
-//                 borderColor = 'rgb(81, 106, 242)';  // Общая редкость
-//             } else if (item.rare === 'zap') {
-//                 borderColor = 'rgb(127, 80, 246)';  // Необычная редкость
-//             } else if (item.rare === 'zas') {
-//                 borderColor = 'rgb(193, 66, 222)';   // Редкая
-//             } else if (item.rare === 'tai') {
-//                 borderColor = 'rgb(216, 87, 82)'; // Эпическая
-//             } else if (item.rare === 'knife') {
-//                 borderColor = 'rgb(216, 87, 82)'; // Легендарная
-//             } else {
-//                 borderColor = 'black';  // По умолчанию для нераспознанных значений
-//             }
-
-//             // Устанавливаем стиль для контейнера, добавляем border
-//             itemDiv.style.border = `2px solid ${borderColor}`;
-//             itemDiv.style.borderRadius = '8px';  // Опционально, чтобы границы были скругленные
-//             itemDiv.style.margin = `0vh`
-//             itemDiv.style.width = `8vw`
-//             itemDiv.style.height = `8vw`
-
-//             // Добавляем изображение и цену в контейнер div
-//             itemDiv.appendChild(img);
-//             itemDiv.appendChild(price);
-    
-//             // Добавляем весь div в основной контейнер
-//             container.appendChild(itemDiv);
-//         });
-
-//         let currentContainerIndex = 0;
-
-//         const items = document.querySelectorAll('.inventory-items-for-craft');
-
-//         console.log(`Найдено ${items.length} элементов.`);
-
-//         let totalSum = 0;
-
-//         // Добавляем обработчик клика для каждого элемента
-//         items.forEach(item => {
-//             item.addEventListener('click', () => {
-//                 const container1 = document.getElementById('craft-grid-child-1');
-
-//                 const targetContainers = [
-//                     document.getElementById('craft-grid-child-2'),
-//                     document.getElementById('craft-grid-child-3'),
-//                     document.getElementById('craft-grid-child-4'),
-//                     document.getElementById('craft-grid-child-5'),
-//                     document.getElementById('craft-grid-child-6'),
-//                     document.getElementById('craft-grid-child-7'),
-//                     document.getElementById('craft-grid-child-8'),
-//                     document.getElementById('craft-grid-child-9'),
-//                     document.getElementById('craft-grid-child-10')
-//                 ];
-
-//                 // Если текущий контейнер не пуст, перемещаем элемент в следующий контейнер
-//                 if (currentContainerIndex < targetContainers.length) {
-//                     const selectedContainer = targetContainers[currentContainerIndex];
-
-//                     // Клонируем элемент, чтобы сохранить оригинальный в первом контейнере
-//                     const itemClone = item.cloneNode(true);
-
-//                     // Добавляем клон в выбранный контейнер
-//                     selectedContainer.appendChild(itemClone);
-
-//                     // Удаляем оригинальный элемент из первого контейнера
-//                     container1.removeChild(item);
-
-//                     // Увеличиваем индекс для следующего контейнера
-//                     currentContainerIndex++;
-
-
-//                     const price = parseFloat(item.querySelector('p').textContent.replace('Цена: ', '').replace(' ₽', ''));  // Получаем цену скина
-//                     totalSum += Math.round(price);  // Добавляем цену скина к общей сумме
-
-
-//                     // Логирование
-//                     console.log(`Элемент с id ${item.id} перемещён в контейнер ${selectedContainer.id}`);
-//                     if (currentContainerIndex === 9) {
-//                         document.getElementById("craft-grid-child-11").innerHTML= `<div class="craft-text" style="font-size: 1.8vh">Общая сумма скинов: ${totalSum}<br>
-//                         Может выпать скин на сумму от: ${totalSum / 2} до ${totalSum * 1.5}</div>`
-//                     } else {
-                        
-//                     }
-//                 } else {
-//                     console.log('Все контейнеры заняты, элемент не может быть перемещён.');
-//                 }
-                
-//     document.getElementById('start-craft').addEventListener(`click`, () => {
-//         if (currentContainerIndex < 9) {
-//             alert (`Осталось добавить ${9 - currentContainerIndex} скинов!`)
-//         } else {
-//             const morsum = Math.round(getRandomNumber(totalSum/2, totalSum * 1.5))
-//             document.getElementById('craft-grid-child-13').innerHTML = `<img src="images/craft-skin.png" class="img-craft-drop">`;
-//             document.getElementById('craft-grid-child-14').innerHTML = `<div class="craft-text" style="font-size: 1.8vh; margin-top: 5vh">Его цена: ${morsum}</div>`;
-//             inventory.push({name: 'morgen', rare: 'knife', price: morsum, image: `images/craft-skin.png`});
-//         }
-//     })
-
-//             });
-
-//         });
-//     } else {
-//         modal.className = 'modal craft-white';
-//         modal.style.backgroundColor = '#fff';
-
-//         // Место для контента, если тема не включена (например, если themeToggle.checked === false)
-//         modal.innerHTML = `
-//             <p>Контент для светлой темы</p>
-//         `;
-//         document.body.appendChild(modal);
-//     }
-
-
-//     console.log(skin);
-
-//     document.body.appendChild(modal);
-
-//     const closeModal = () => {
-//         modal.remove();
-//         document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
-//     };
-
-//     const handleEscapeKey = (event) => {
-//         if (event.key === 'Escape') {
-//             closeModal();
-//         }
-//     };
-
-//     document.addEventListener('keydown', handleEscapeKey);
-
-//     // modal.querySelector('.close-modal').addEventListener('click', closeModal);
-// }
-// craftNode.addEventListener('click', () => craftModal(inventory));
-
-
-// Добавляем обработчик события на переключатель
 
 MiniGamesNode.addEventListener(`click`, () => {
     const existingModal = document.querySelector('.modal');
@@ -1393,19 +1194,19 @@ MiniGamesNode.addEventListener(`click`, () => {
         <div class="bet-run">
             <div class="run-balance" style="border-color: #d34baf">
                 <button class="run-btn" id="run-plus" style="background-color:#d34baf">+</button>
-                <input type="number" class="run-input-sum" placeholder="10.00" style="background-color: #121212; color:snow"/>
+                <input type="number" class="run-input-sum" placeholder="10.00" value="10.00" style="background-color: #121212; color:snow"/>
                 <button class="run-btn" id="run-minus" style="background-color:#d34baf">-</button>
             </div>
             <div class="run-balance-btn">
-                <button class="run-btn-stavka" id="run-plus" style="background-color:#d34baf">1/2</button>
-                <button class="run-btn-stavka" id="run-minus" style="width: 4vw; height: 3vh; background-color:#d34baf">ALL IN</button>
-                <button class="run-btn-stavka" id="run-minus" style="background-color:#d34baf">x2</button>
+                <button class="run-btn-stavka" id="zerofive" style="background-color:#d34baf">1/2</button>
+                <button class="run-btn-stavka" id="all-in" style="width: 4vw; height: 3vh; background-color:#d34baf">ALL IN</button>
+                <button class="run-btn-stavka" id="twox" style="background-color:#d34baf">x2</button>
             </div>
             <p class="auto-run-text">авто-вывод</p>
             <div class="run-balance-qwe" style="border-color: #d34baf">
                 <div style="display: flex; border-bottom: 1px solid #d34baf">
                     <p style="color: #snow; font-size: 1vw; margin-left: 0.5vw">X</p>
-                    <input  class="stavka-run" placeholder="1.2" style="background-color: #121212; color:snow; padding-left: 1vh"/>
+                    <input  class="stavka-run" placeholder="1.2" value="1.2" style="background-color: #121212; color:snow; padding-left:0.5vw"  maxlength="4" min="1"/>
                 </div>
                 <button class="run-btn-stavka" id="run-onexone" style="background-color:#d34baf">1.1X</button>
                 <button class="run-btn-stavka" id="run-onextwo" style="background-color:#d34baf">1.2X</button>
@@ -1517,19 +1318,19 @@ MiniGamesNode.addEventListener(`click`, () => {
         <div class="bet-run">
             <div class="run-balance">
                 <button class="run-btn" id="run-plus">+</button>
-                <input type="number" class="run-input-sum" placeholder="10.00"/>
+                <input type="number" class="run-input-sum" placeholder="10.00" value="10.00"/>
                 <button class="run-btn" id="run-minus">-</button>
             </div>
             <div class="run-balance-btn">
-                <button class="run-btn-stavka" id="run-plus">1/2</button>
-                <button class="run-btn-stavka" id="run-minus" style="width: 4vw; height: 3vh">ALL IN</button>
-                <button class="run-btn-stavka" id="run-minus">x2</button>
+                <button class="run-btn-stavka" id="zerofive">1/2</button>
+                <button class="run-btn-stavka" id="all-in" style="width: 4vw; height: 3vh">ALL IN</button>
+                <button class="run-btn-stavka" id="twox">x2</button>
             </div>
             <p class="auto-run-text">авто-вывод</p>
             <div class="run-balance-qwe">
-                <div style="display: flex; border-bottom: 1px solid #3399ff">
+                <div style="display: flex;  border-bottom: 1px solid #af4eff">
                     <p style="color: #121212; font-size: 1vw; margin-left: 0.5vw">X</p>
-                    <input  class="stavka-run" placeholder="1.2"/>
+                    <input  class="stavka-run" placeholder="1.2" value="1.2" maxlength="4" style="padding-left:0.5vw" min="1"/>
                 </div>
                 <button class="run-btn-stavka" id="run-onexone">1.1X</button>
                 <button class="run-btn-stavka" id="run-onextwo">1.2X</button>
@@ -1852,6 +1653,61 @@ betGreenBtn.addEventListener('click', () => handleBet('green'));
 
 // Инициализация
 drawWheel();
+
+const runPlus = document.getElementById('run-plus');
+const runInputSum = document.querySelector('.run-input-sum');
+const runMinus = document.getElementById('run-minus');
+const zeroFive = document.getElementById('zerofive');
+const allIn = document.getElementById('all-in');
+const twox = document.getElementById('twox');
+const stavkaRun = document.querySelector('.stavka-run');
+const runOnexone = document.getElementById('run-onexone');
+const runOnextwo = document.getElementById('run-onextwo');
+const runOnexfive = document.getElementById('run-onexfive');
+const runTwo = document.getElementById('run-two');
+const startRun = document.querySelector('.start-run');
+   
+let runSum = 0;
+runPlus.addEventListener('click', () => {
+    if (runInputSum.value >= 1){
+        runSum = Number(runInputSum.value) + (Number(runInputSum.value) * 0.10);
+        runInputSum.value = runSum.toFixed(2);
+    } else {
+        runSum = Number(runInputSum.value) + 1;
+        runInputSum.value = runSum;
+    }
+
+})
+runMinus.addEventListener('click', () => {
+    runSum = Number(runInputSum.value) - (Number(runInputSum.value) * 0.10);
+    runInputSum.value = runSum.toFixed(2);
+})
+zeroFive.addEventListener('click', () => {
+    let qweqwe = runInputSum.value /= 2;
+    runInputSum.value = qweqwe.toFixed(2);
+})
+allIn.addEventListener('click', () => {
+    runInputSum.value = Number(balance);
+})
+twox.addEventListener('click', () => {
+    let qweqwe = runInputSum.value *= 2;
+    runInputSum.value = qweqwe.toFixed(2);
+})
+
+const vivod = (stavka) => {
+    let newrunStavka = stavka;
+    stavkaRun.value = newrunStavka;
+}
+
+runOnexone.addEventListener('click', () => {vivod(1.1)});
+runOnextwo.addEventListener('click', () => {vivod(1.2)});
+runOnexfive.addEventListener('click', () => {vivod(1.5)});
+runTwo.addEventListener('click', () => {vivod(2)});
+
+
+
+
+
 
 
 
