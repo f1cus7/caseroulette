@@ -9,10 +9,13 @@ const caseThreeOpen = document.querySelector('.case-three-open');
 const btnOpenCaseOne = document.getElementById('btn-open-case-one');
 const btnOpenCaseOne5x = document.getElementById('btn-open-case-one-5x');
 const btnOpenCaseOne10x = document.getElementById('btn-open-case-one-10x');
+const btnOpenCaseOne100x = document.getElementById('btn-open-case-one-100x');
 const btnOpenCaseTwo5x = document.getElementById('btn-open-case-two-5x');
 const btnOpenCaseTwo10x = document.getElementById('btn-open-case-two-10x');
+const btnOpenCaseTwo100x = document.getElementById('btn-open-case-two-100x');
 const btnOpenCaseThree5x = document.getElementById('btn-open-case-three-5x');
 const btnOpenCaseThree10x = document.getElementById('btn-open-case-three-10x');
+const btnOpenCaseThree100x = document.getElementById('btn-open-case-three-100x');
 const btnOpenCaseTwo = document.getElementById('btn-open-case-two');
 const btnOpenCaseThree = document.getElementById('btn-open-case-three');
 const staticOpenCaseNode = document.getElementById('static-open-case');
@@ -610,6 +613,60 @@ function openCase10x(caseArray, caseNumber) {
     createModal510x(skins, 10);
 }
 
+function openCase100x(caseArray, caseNumber) {
+    if (balance < 50000) {
+        alert('Недостаточно средств для открытия кейса.');
+        return;
+    }
+
+    staticOpenCase += 100;
+    if  (themeToggle.checked) {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr class="dark-theme">`;
+    } else {
+        staticOpenCaseNode.innerHTML = `Количество открытых кейсов: ${staticOpenCase}<hr />`;
+    }
+    balance -= 50000;
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    }
+
+    const skins = [];
+    for (let i = 0; i < 100; i++) {
+        // Используем getRandomSkin для выбора скина с учетом шансов
+        const randomSkin = getRandomSkin(caseArray);
+
+        // Если не удалось выбрать скин, выходим из цикла
+        if (!randomSkin) {
+            alert('Не удалось выбрать скин.');
+            return;
+        }
+
+        // Сохраняем индекс скина для корректного отображения изображения
+        const randomIndex = caseArray.findIndex(skin => skin.name === randomSkin.name && skin.rare === randomSkin.rare);
+
+        // Добавляем скин в массив с изображением
+        skins.push({
+            ...randomSkin,
+            imagePath: `images/${caseNumber}_${randomIndex + 1}.png` // Генерация пути к изображению
+        });
+
+        // Добавляем скин в инвентарь
+        inventory.push({ ...randomSkin, image: `images/${caseNumber}_${randomIndex + 1}.png` });
+    }
+
+    // Обновляем инвентарь на странице
+    if(themeToggle.checked) {
+        inventoryNode.innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    } else {
+        inventoryNode.innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh"/>Инвентарь
+        <div class="inventory-col-vo">${inventory.length}<div>`;
+    }
+
+    createModal510x(skins, 0);
+}
 
 btnOpenCaseOne.addEventListener('click', () => openCase(caseOneArr, 1));
 btnOpenCaseTwo.addEventListener('click', () => openCase(caseTwoArr, 2));
@@ -620,7 +677,9 @@ btnOpenCaseThree5x.addEventListener('click', () => openCase5x(caseThreeArr, 3));
 btnOpenCaseOne10x.addEventListener('click', () => openCase10x(caseOneArr, 1));
 btnOpenCaseTwo10x.addEventListener('click', () => openCase10x(caseTwoArr, 2));
 btnOpenCaseThree10x.addEventListener('click', () => openCase10x(caseThreeArr, 3));
-
+btnOpenCaseOne100x.addEventListener('click', () => openCase100x(caseOneArr, 1));
+btnOpenCaseTwo100x.addEventListener('click', () => openCase100x(caseTwoArr, 2));
+btnOpenCaseThree100x.addEventListener('click', () => openCase100x(caseThreeArr, 3));
 
 const createModal = (skin, index, caseNumber) => {
     // Удаляем старое модальное окно, если оно существует
@@ -733,9 +792,10 @@ const createModal510x = (skins, itemCount) => {
         if  (themeToggle.checked) {
             modal.className = 'modalBlack';
             modal.style.backgroundColor = '#111';
+            modal.style.overflow = 'auto';
             modal.innerHTML = `
             <h2 style="margin-bottom: 1vh; color: snow;">Вам выпало ${itemCount} предметов!</h2>
-            <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw; color: snow"></div>
+            <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw; color: snow"; overflow: auto></div>
             <button class="close-modal" style="margin-top: 5vh; padding: 2vh 5vh; background: #d34baf;; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
         `;
         } else {
@@ -744,7 +804,7 @@ const createModal510x = (skins, itemCount) => {
         modal.style.backgroundColor = '#fff';
         modal.innerHTML = `
         <h2 style="margin-bottom: 1vh;">Вам выпало ${itemCount} предметов!</h2>
-        <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw;"></div>
+        <div class="skins-container" style="display: flex; flex-wrap: wrap; gap: 1vw; justify-content: center; width:65vw;  overflow: auto"></div>
         <button class="close-modal" style="margin-top: 5vh; padding: 2vh 5vh; background: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Закрыть</button>
     `;
         }
@@ -1276,7 +1336,7 @@ MiniGamesNode.addEventListener(`click`, () => {
             <button class="procent-min nvuti-buttons btn-color">Мин</button>
         </div>
         <div class="child-nvuti-grid-5">
-            <p id="possible-gain">0.00</p>
+            <p id="possible-gain" style="color: #d34baf;">0.00</p>
             <p class="possible-gain-text" style="color: snow;">Возможный выигрыш</p> <!-- Заменил на правильный закрывающий тег -->
             <div class="winorlose"></div>
         </div>
@@ -1298,13 +1358,13 @@ MiniGamesNode.addEventListener(`click`, () => {
     <div class="roulette-container">
         <!-- Первая секция - инпут -->
         <div class="roulette-input" style="color:snow">
-            <input type="number" id="bet" placeholder="ставка" class="roulete-input" style="background-color:#111; border: 1px solid #d34baf; color:snow;"/>
+            <input type="number" id="bet" placeholder="ставка" class="roulete-input" style="background-color:#111; border: 1px solid red; color:snow; outline: red"/>
         </div>
 
         <!-- Вторая секция - колесо -->
         <div class="roulette-wheel-container">
             <div id="wheel-container">
-                <canvas id="roulette-wheel" width="200" height="200"></canvas>
+                <canvas id="roulette-wheel" width="150" height="150"></canvas>
             </div>
         </div>
 
@@ -1325,8 +1385,37 @@ MiniGamesNode.addEventListener(`click`, () => {
 </div>
 </div>
 <!-- Второй контейнер с дополнительными играми -->
-<div class="second-game-container">
-    <div class="one-more-game">a</div>
+<div class="game-container">
+    <div class="run">
+        <div class="game-place-run">
+
+        </div>
+        <div class="bet-run">
+            <div class="run-balance" style="border-color: #d34baf">
+                <button class="run-btn" id="run-plus" style="background-color:#d34baf">+</button>
+                <input type="number" class="run-input-sum" placeholder="10.00" style="background-color: #121212; color:snow"/>
+                <button class="run-btn" id="run-minus" style="background-color:#d34baf">-</button>
+            </div>
+            <div class="run-balance-btn">
+                <button class="run-btn-stavka" id="run-plus" style="background-color:#d34baf">1/2</button>
+                <button class="run-btn-stavka" id="run-minus" style="width: 4vw; height: 3vh; background-color:#d34baf">ALL IN</button>
+                <button class="run-btn-stavka" id="run-minus" style="background-color:#d34baf">x2</button>
+            </div>
+            <p class="auto-run-text">авто-вывод</p>
+            <div class="run-balance-qwe" style="border-color: #d34baf">
+                <div style="display: flex; border-bottom: 1px solid #d34baf">
+                    <p style="color: #snow; font-size: 1vw; margin-left: 0.5vw">X</p>
+                    <input  class="stavka-run" placeholder="1.2" style="background-color: #121212; color:snow; padding-left: 1vh"/>
+                </div>
+                <button class="run-btn-stavka" id="run-onexone" style="background-color:#d34baf">1.1X</button>
+                <button class="run-btn-stavka" id="run-onextwo" style="background-color:#d34baf">1.2X</button>
+                <button class="run-btn-stavka" id="run-onexfive" style="background-color:#d34baf">1.5X</button>
+                <button class="run-btn-stavka" id="run-two" style="background-color:#d34baf">2X</button>
+            </div>
+            <button class="start-run" style="background-color:#d34baf">Сделать ставку</button>
+        </div>
+
+    </div>
     <div class="another-game">b</div>
 </div>
 
@@ -1390,14 +1479,14 @@ MiniGamesNode.addEventListener(`click`, () => {
         <div class="roulette-container">
             <!-- Первая секция - инпут -->
             <div class="roulette-input">
-                <input type="number" id="bet" placeholder="ставка" class="roulete-input"/>
+                <input type="number" id="bet" placeholder="ставка" class="roulete-input" style="border-color: red; outline: red"/>
 
             </div>
 
             <!-- Вторая секция - колесо -->
             <div class="roulette-wheel-container">
                 <div id="wheel-container">
-                    <canvas id="roulette-wheel" width="200" height="200"></canvas>
+                    <canvas id="roulette-wheel" width="150" height="150"></canvas>
                 </div>
             </div>
 
@@ -1420,8 +1509,37 @@ MiniGamesNode.addEventListener(`click`, () => {
 
 
 <!-- Второй контейнер с дополнительными играми -->
-<div class="second-game-container">
-    <div class="one-more-game">a</div>
+<div class="game-container">
+    <div class="run">
+        <div class="game-place-run">
+
+        </div>
+        <div class="bet-run">
+            <div class="run-balance">
+                <button class="run-btn" id="run-plus">+</button>
+                <input type="number" class="run-input-sum" placeholder="10.00"/>
+                <button class="run-btn" id="run-minus">-</button>
+            </div>
+            <div class="run-balance-btn">
+                <button class="run-btn-stavka" id="run-plus">1/2</button>
+                <button class="run-btn-stavka" id="run-minus" style="width: 4vw; height: 3vh">ALL IN</button>
+                <button class="run-btn-stavka" id="run-minus">x2</button>
+            </div>
+            <p class="auto-run-text">авто-вывод</p>
+            <div class="run-balance-qwe">
+                <div style="display: flex; border-bottom: 1px solid #3399ff">
+                    <p style="color: #121212; font-size: 1vw; margin-left: 0.5vw">X</p>
+                    <input  class="stavka-run" placeholder="1.2"/>
+                </div>
+                <button class="run-btn-stavka" id="run-onexone">1.1X</button>
+                <button class="run-btn-stavka" id="run-onextwo">1.2X</button>
+                <button class="run-btn-stavka" id="run-onexfive">1.5X</button>
+                <button class="run-btn-stavka" id="run-two">2X</button>
+            </div>
+            <button class="start-run">Сделать ставку</button>
+        </div>
+
+    </div>
     <div class="another-game">b</div>
 </div>
 
@@ -1647,11 +1765,13 @@ function drawWheel() {
     });
 }
 
+    let randomNumber = 0;
+
 // Функция для вращения колеса
 function spinWheel() {
     const rotations = Math.floor(Math.random() * 3) + 4; // От 4 до 6 полных оборотов
     const randomIndex = Math.floor(Math.random() * numbers.length); // Случайное число
-    const randomNumber = numbers[randomIndex];
+    randomNumber = numbers[randomIndex];
     const degreesPerSection = 360 / numbers.length;
 
     let rotationDegree = 0;
@@ -1697,7 +1817,7 @@ function checkWin(number) {
             balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
         }
     } else {
-        resultNumber.textContent = `вы проиграли`;
+        resultNumber.textContent = `Вы проиграли. Выпало число: ${randomNumber}`;
     }
 }
 
@@ -1732,6 +1852,8 @@ betGreenBtn.addEventListener('click', () => handleBet('green'));
 
 // Инициализация
 drawWheel();
+
+
 
 
 
