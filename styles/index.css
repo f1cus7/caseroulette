@@ -1038,11 +1038,37 @@ input[type="number"]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
+.run-numbers {
+  margin-top: 5vh;
+  font-size: 5vh;
+}
 
+.take-run {
+  border: none;
+  margin-top: 4vw;
+  width: 9vw;
+  height: 5vh;
+  background-color: #ed24ff;
+  color: snow;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: none;
+}
 
+.take-run:hover {
+  background-color: #ac16b9;
+}
 
-
-
+.run-line {
+  height: 0.4vh;
+  width: 1vw;
+  background-color: snow;
+  border: none;
+  margin-top: 20vh;
+  rotate: -10deg;
+  border-radius: 5px;
+}
 
 
 

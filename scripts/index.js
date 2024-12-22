@@ -29,7 +29,7 @@ const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 const craftNode = document.getElementById('craft');
 const MiniGamesNode = document.getElementById('mini-games');
-
+const home = document.getElementById('house');
 
 // масив кейса 1 
 const caseOneArr = [
@@ -418,10 +418,20 @@ const caseThreeStart = () => {
     caseThreeOpen.style.display = 'block'
 };
 
+const homeFunc = () => {
+    changeText.style.display = 'block'
+    caseOneOpen.style.display = 'none'
+    caseTwoOpen.style.display = 'none'
+    caseThreeOpen.style.display = 'none'
+    const existingModal = document.querySelector('.modal');
+    if (existingModal) existingModal.remove();
+    document.querySelector('.theme-switcher').style.display = 'inline-flex';
+};
+
 caseOne.addEventListener(`click`, caseOneStart);
 caseTwo.addEventListener(`click`, caseTwoStart);
 caseThree.addEventListener(`click`, caseThreeStart);
-
+home.addEventListener(`click`, homeFunc);
 
 
 // Функция для расчета рандома
@@ -682,15 +692,11 @@ btnOpenCaseTwo100x.addEventListener('click', () => openCase100x(caseTwoArr, 2));
 btnOpenCaseThree100x.addEventListener('click', () => openCase100x(caseThreeArr, 3));
 
 const createModal = (skin, index, caseNumber) => {
-    // Удаляем старое модальное окно, если оно существует
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
       
-    // Формируем путь к картинке с учетом номера кейса
-    const imagePath = `images/${caseNumber}_${index + 1}.png`;  // caseNumber - номер кейса (1, 2, или 3)
+    const imagePath = `images/${caseNumber}_${index + 1}.png`;
 
-
-    // Создаем новое модальное окно
     const modal = document.createElement('div');
 
     if  (themeToggle.checked) {
@@ -706,7 +712,6 @@ const createModal = (skin, index, caseNumber) => {
     `;
     } else {
         modal.className = 'modal';
-    // Контент модального окна
     modal.style.backgroundColor = '#fff';
     modal.innerHTML = `
         <h2>Вам выпал предмет!</h2>
@@ -724,7 +729,7 @@ const createModal = (skin, index, caseNumber) => {
 
     const closeModal = () => {
         modal.remove();
-        document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши
+        document.removeEventListener('keydown', handleEscapeKey);
     };
 
     const handleEscapeKey = (event) => {
@@ -800,7 +805,6 @@ const createModal510x = (skins, itemCount) => {
         `;
         } else {
             modal.className = 'modal';
-        // Контент модального окна
         modal.style.backgroundColor = '#fff';
         modal.innerHTML = `
         <h2 style="margin-bottom: 1vh;">Вам выпало ${itemCount} предметов!</h2>
@@ -816,7 +820,6 @@ const createModal510x = (skins, itemCount) => {
         const skinElement = document.createElement('div');
         skinElement.style = `text-align: center; width: ${itemCount === 5 ? '8vw' : '9vw'}; border: 1px solid #ccc; border-radius: 8px; padding: 10px;`;
         
-        // Apply different styles based on rarity
         if (skin.rare === 'arm') {
             skinElement.style = `text-align: center; width: ${itemCount === 5 ? '10vw' : '9vw'}; border: 2px solid rgb(81, 106, 242); border-radius: 8px; padding: 10px;`;
         } else if (skin.rare === 'zap') {
@@ -906,25 +909,19 @@ const createModal510x = (skins, itemCount) => {
 
 
 inventoryNode.addEventListener('click', () => {
-    // Удаляем старое модальное окно, если оно существует
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
 
 
     if (inventory.length > 0) {
-            // Создаем модальное окно
     const modal = document.createElement('div');
     modal.className = themeToggle.checked ? 'inventory-modal-black' : 'inventory-modal';
 
-
-
-    // Создаем контейнер для карточек
     const cardGrid = document.createElement('div');
 
-    // Добавляем карточки на основе массива `inventory`
     inventory.forEach(item => {
         const card = document.createElement('div');
-        card.className = `card-grid-item ${item.rare}`; // Добавляем класс редкости
+        card.className = `card-grid-item ${item.rare}`;
 
         if  (themeToggle.checked) {
             cardGrid.className = 'card-grid';
@@ -1100,7 +1097,6 @@ inventoryNode.addEventListener('click', () => {
 MiniGamesNode.addEventListener(`click`, () => {
     const existingModal = document.querySelector('.modal');
     if (existingModal) existingModal.remove();
-    // Создаем новое модальное окно
     const modal = document.createElement('div');
     document.querySelector('.theme-switcher').style.display = 'none';
 
@@ -1189,7 +1185,8 @@ MiniGamesNode.addEventListener(`click`, () => {
 <div class="game-container">
     <div class="run">
         <div class="game-place-run">
-
+            <div class="run-numbers"><p>1.00x</p></div>
+            <div class="run-line"></div>
         </div>
         <div class="bet-run">
             <div class="run-balance" style="border-color: #d34baf">
@@ -1206,7 +1203,7 @@ MiniGamesNode.addEventListener(`click`, () => {
             <div class="run-balance-qwe" style="border-color: #d34baf">
                 <div style="display: flex; border-bottom: 1px solid #d34baf">
                     <p style="color: #snow; font-size: 1vw; margin-left: 0.5vw">X</p>
-                    <input  class="stavka-run" placeholder="1.2" value="1.2" style="background-color: #121212; color:snow; padding-left:0.5vw"  maxlength="4" min="1"/>
+                    <input  class="stavka-run" placeholder="1.2" style="background-color: #121212; color:snow; padding-left:0.5vw"  maxlength="4" min="1"/>
                 </div>
                 <button class="run-btn-stavka" id="run-onexone" style="background-color:#d34baf">1.1X</button>
                 <button class="run-btn-stavka" id="run-onextwo" style="background-color:#d34baf">1.2X</button>
@@ -1214,6 +1211,7 @@ MiniGamesNode.addEventListener(`click`, () => {
                 <button class="run-btn-stavka" id="run-two" style="background-color:#d34baf">2X</button>
             </div>
             <button class="start-run" style="background-color:#d34baf">Сделать ставку</button>
+            <button class="take-run">Забрать</button>
         </div>
 
     </div>
@@ -1313,7 +1311,8 @@ MiniGamesNode.addEventListener(`click`, () => {
 <div class="game-container">
     <div class="run">
         <div class="game-place-run">
-
+                    <div class="run-numbers">1.00x</div>
+                    <div class="run-line"></div>
         </div>
         <div class="bet-run">
             <div class="run-balance">
@@ -1330,14 +1329,17 @@ MiniGamesNode.addEventListener(`click`, () => {
             <div class="run-balance-qwe">
                 <div style="display: flex;  border-bottom: 1px solid #af4eff">
                     <p style="color: #121212; font-size: 1vw; margin-left: 0.5vw">X</p>
-                    <input  class="stavka-run" placeholder="1.2" value="1.2" maxlength="4" style="padding-left:0.5vw" min="1"/>
+                    <input  class="stavka-run" placeholder="1.2" maxlength="4" style="padding-left:0.5vw" min="1" id="run-auto-vivod"/>
                 </div>
                 <button class="run-btn-stavka" id="run-onexone">1.1X</button>
                 <button class="run-btn-stavka" id="run-onextwo">1.2X</button>
                 <button class="run-btn-stavka" id="run-onexfive">1.5X</button>
                 <button class="run-btn-stavka" id="run-two">2X</button>
             </div>
+            <div class="run-div-start">
             <button class="start-run">Сделать ставку</button>
+            <button class="take-run">Забрать</button>
+            </div>
         </div>
 
     </div>
@@ -1666,6 +1668,8 @@ const runOnextwo = document.getElementById('run-onextwo');
 const runOnexfive = document.getElementById('run-onexfive');
 const runTwo = document.getElementById('run-two');
 const startRun = document.querySelector('.start-run');
+const runDivStart = document.querySelector('.run-div-start');
+const takeRun = document.querySelector(".take-run");
    
 let runSum = 0;
 runPlus.addEventListener('click', () => {
@@ -1704,7 +1708,82 @@ runOnextwo.addEventListener('click', () => {vivod(1.2)});
 runOnexfive.addEventListener('click', () => {vivod(1.5)});
 runTwo.addEventListener('click', () => {vivod(2)});
 
+let x = 0;
+let interval;
 
+
+const runPlay = () => {
+    if (runInputSum.value >= 10.00) {
+    let min = 1;
+    let max = 10;
+    let rand = (Math.random() ** 2) * (max - min) + min;
+    console.log(rand.toFixed(2));        
+    x = 1.0;
+    let line = 1;
+    document.querySelector('.run-numbers').style.color = `snow`;
+    startRun.style.display = `none`;
+    takeRun.style.display = `inline-block`
+    document.querySelector('.run-line').style.backgroundColor = `snow`;
+    balance -= Number(runInputSum.value);
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    };
+    interval = setInterval(() => {
+        x += 0.01;
+        line += 0.035;
+        document.querySelector('.run-line').style.width = `${line}vw`;
+        document.querySelector('.run-numbers').innerHTML = `${x.toFixed(2)}x`;
+        if (Math.round(x * 100) / 100 === Math.round(rand * 100) / 100) {
+            clearInterval(interval);
+            document.querySelector('.run-numbers').style.color = `red`;
+            startRun.style.display = `inline-block`;
+            takeRun.style.display = `none`;
+            document.querySelector('.run-line').style.backgroundColor = `red`;
+            
+        }
+    
+    if (document.getElementById('run-auto-vivod').value)  {
+        if (Number(document.getElementById('run-auto-vivod').value).toFixed(2) == x.toFixed(2)) {
+            document.querySelector('.run-numbers').textContent = `${x.toFixed(2)}x`;
+            document.querySelector('.run-numbers').style.color = `lime`
+            clearInterval(interval);
+            balance += Number(runInputSum.value) * x;
+            if (themeToggle.checked) {
+               balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+            } else {
+               balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+         };
+            startRun.style.display = `inline-block`;
+            takeRun.style.display = `none`;
+            document.querySelector('.run-line').style.backgroundColor = `lime`;
+        }
+        
+    }
+}, 50);
+} else {
+    alert (`минимальная ставка равна 10`)
+}
+
+};
+
+startRun.addEventListener('click', runPlay);
+
+takeRun.addEventListener('click', () => {
+    document.querySelector('.run-numbers').textContent = `${x.toFixed(2)}x`;
+    document.querySelector('.run-numbers').style.color = `lime`
+    clearInterval(interval);
+    balance += Number(runInputSum.value) * x;
+    if (themeToggle.checked) {
+        balanceNode.innerHTML = `<img src="images/cash-stack_black.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    } else {
+        balanceNode.innerHTML = `<img src="images/cash-stack.svg" alt="" style="width: 2vh" /> Баланс: ${balance.toFixed(2)} руб.`;
+    };
+    startRun.style.display = `inline-block`;
+    takeRun.style.display = `none`;
+    document.querySelector('.run-line').style.backgroundColor = `lime`;
+})
 
 
 
@@ -1810,6 +1889,11 @@ themeToggle.addEventListener('change', () => {
       <div class="inventory-col-vo">${inventory.length}</div>`;
       document.getElementById('mini-games').classList.add('dark-theme');
       document.getElementById('mini-games').innerHTML = `<img src="images/mini-games-black.svg" alt="" style="width: 2vh;"/>Мини-игры`;
+      document.getElementById('house').innerHTML = `<img src="images/house-black.svg" alt="" style="width: 2vh" />Главная`
+      document.getElementById('house').style.color = `snow`;
+      document.getElementById('shopping').innerHTML = `<img src="images/card-black.svg" alt="" style="width: 2vh" />Магазин`
+      document.getElementById('shopping').style.color = `snow`;
+      document.getElementById('shopping').style.backgroundColor = `#121212`
     } else {
       body.classList.remove('dark-theme');
       document.querySelector('header').classList.remove('dark-theme');
@@ -1837,5 +1921,10 @@ themeToggle.addEventListener('change', () => {
       <div class="inventory-col-vo">${inventory.length}</div>`;
       document.getElementById('mini-games').classList.remove('dark-theme');
       document.getElementById('mini-games').innerHTML = `<img src="images/mini-games.svg" alt="" style="width: 2vh;"/>Мини-игры`;
+      document.getElementById('house').innerHTML = `<img src="images/house.svg" alt="" style="width: 2vh" />Главная`
+      document.getElementById('house').style.color = `#121212`;
+      document.getElementById('shopping').innerHTML = `<img src="images/cart.svg" alt="" style="width: 2vh" />Магазин`
+      document.getElementById('shopping').style.color = `#121212`;
+      document.getElementById('shopping').style.backgroundColor = `white`
     }
   });
