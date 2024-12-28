@@ -373,7 +373,6 @@ nav {
   display: inline-flex;
   align-items: center;
   font-size: 2vh;
-  margin-left: auto; /* Сдвигает баланс к правому краю */
   white-space: nowrap; /* Запрещаем перенос текста в балансе */
 }
 
@@ -942,7 +941,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .run-input-sum {
-  width: 5vw;
+  width: 4vw;
   height: 3vh;
   background-color: #fff;
   border: none;
@@ -956,16 +955,20 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 3vh;
   height: 3vh;
   text-align: center;
+  background-color: white;
+  outline: 1px solid #af4eff;
   border: none;
-  background-color: #af4eff;
   cursor: pointer;
   border-radius: 7px;
-  color: snow;
-  transition: 0.2s;
+  color: #af4eff;
+  transition: 0.1s;
+  margin: 0 0.1vw;
 }
 
 .run-btn:hover {
   background-color: #af4eff;
+  outline: 1px solid #af4eff;
+  color: white;
 }
 
 .run-balance-btn {
@@ -979,24 +982,37 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .run-btn-stavka {
+  background-color: white;
   text-align: center;
-  border: none;
-  background-color: #af4eff;
+  outline: 1px solid #af4eff;
   cursor: pointer;
   border-radius: 7px;
-  color: snow;
+  color: #af4eff;
   transition: 0.2s;
   width: 3vh;
   height: 3vh;
-  margin: 0.1vw;
+  margin: 0.2vw;
+  border: none;
+  transition: 0.2s;
 }
 
+.run-btn-stavka:hover {
+  background-color: #af4eff;
+  outline: 1px solid #af4eff;
+  color: white;
+}
+
+.run-btn-stavka:active {
+  background-color: #8727d5;
+  outline: 1px solid #8727d5;
+  color: white;
+}
 
 .auto-run-text {
   color: #121212;
   text-align: left;
   margin-left: 0.5vw;
-  font-size: 0.6vw;
+  font-size: 0.9vw;
   margin-top: 1vh;
   font-weight: lighter;
 }
@@ -1016,13 +1032,16 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #run-onexone, #run-onextwo,#run-onexfive, #run-two {
-  border-right: 0.5vh solid #c37aff;
   text-align: center;
   padding: 0;
+  margin: 0 0.1vw;
+  border: none;
+  outline: none;
+  width: 45%;
+  border-radius: 1px;
 }
 
 #run-onexone:hover, #run-onextwo:hover,#run-onexfive:hover, #run-two:hover {
-  border-right: 1vh solid #985dc900;
   text-align: center;
   padding: 0;
 }
@@ -1032,10 +1051,24 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 4vw;
   width: 9vw;
   height: 5vh;
-  background-color: #af4eff;
-  color: snow;
+  color: #af4eff;
   border-radius: 10px;
   cursor: pointer;
+  background-color: white;
+  outline: 2px solid #af4eff;
+  transition: 0.2s;
+}
+
+.start-run:hover {
+  background-color: #af4eff;
+  outline: 2px solid #af4eff;
+  color: white;
+}
+
+.start-run:active {
+  background-color: #8727d5;
+  outline: 2px solid #8727d5;
+  color: white;
 }
 
 .run-numbers {
@@ -1048,16 +1081,30 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 4vw;
   width: 9vw;
   height: 5vh;
-  background-color: #ed24ff;
-  color: snow;
+  background-color: #00c15d;
+  color: white;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
   display: none;
+  animation: take-run 0.5s linear infinite;
 }
 
 .take-run:hover {
-  background-color: #ac16b9;
+  background-color: #00a952;
+  color: white;
+}
+
+.take-run:active {
+  background-color: #007b3b;
+  color: white;
+}
+
+@keyframes take-run {
+  50% {
+    width: 8vw;
+    font-size: 1vw;
+  }
 }
 
 .run-line {
@@ -1065,15 +1112,64 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 1vw;
   background-color: snow;
   border: none;
-  margin-top: 20vh;
   rotate: -10deg;
   border-radius: 5px;
 }
 
+.run-gif {
+  rotate: -15deg;
+  margin-top: 8vh;
+  width: 70px;
+  margin-left: -26vw;
+  margin-bottom: 2vh;
+}
+
+#promocodes {
+  display: inline-flex;
+  margin-left: auto;
+  align-items: center;
+  font-size: 2vh;
+}
+
+.promocode-input {
+  border-radius: 1vw 0vw 0vw 1vw;
+  background-color: white;
+  font-size: 2vh;
+  padding-left: 0.5vw;
+  border: 1px solid #121212;
+  color: #121212;
+}
+
+/* Тёмная тема */
+.dark-theme .promocode-input {
+  border-radius: 1vw 0vw 0vw 1vw;
+  background-color: #121212;
+  font-size: 2vh;
+  padding-left: 0.5vw;
+  border: 1px solid #d34baf;
+  color: snow;
+}
 
 
 
+.promocodes-btn {
+  border-radius: 0vw 1vw 1vw 0vw;
+  font-size: 2vh;
+  cursor: pointer;
+  padding: 0vw 0.5vw;
+  border: 1px solid #121212;
+  background-color: white;
+}
 
+.dark-theme .promocodes-btn {
+  border-radius: 0vw 1vw 1vw 0vw;
+  font-size: 2vh;
+  cursor: pointer;
+  padding: 0vw 0.5vw;
+  border: 1px solid #d34baf;
+  background-color: #121212;
+  color: snow;
+}
 
 .another-game {
   color: snow;
